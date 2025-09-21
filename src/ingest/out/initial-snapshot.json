@@ -1,0 +1,61 @@
+{
+  "version": "0.1.0",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "items": [
+    {
+      "itemId": "currency-chaos-orb",
+      "name": "Chaos Orb",
+      "normalizedName": "chaos orb",
+      "category": "currency",
+      "chaosValue": 1,
+      "divineValue": 0.01,
+      "confidence": 0.95,
+      "sampleSize": 100,
+      "listings": 50,
+      "sources": ["RePoE", "Community"]
+    },
+    {
+      "itemId": "currency-divine-orb",
+      "name": "Divine Orb",
+      "normalizedName": "divine orb",
+      "category": "currency",
+      "chaosValue": 180,
+      "divineValue": 1,
+      "confidence": 0.85,
+      "sampleSize": 75,
+      "listings": 40,
+      "sources": ["RePoE", "Community"]
+    },
+    {
+      "itemId": "currency-exalted-orb",
+      "name": "Exalted Orb",
+      "normalizedName": "exalted orb",
+      "category": "currency",
+      "chaosValue": 90,
+      "divineValue": 0.5,
+      "confidence": 0.75,
+      "sampleSize": 60,
+      "listings": 35,
+      "sources": ["RePoE"]
+    },
+    {
+      "itemId": "fragment-maven-writ",
+      "name": "The Maven's Writ",
+      "normalizedName": "the mavens writ",
+      "category": "fragment",
+      "chaosValue": 115,
+      "divineValue": 0.64,
+      "confidence": 0.65,
+      "sampleSize": 40,
+      "listings": 20,
+      "sources": ["RePoE"]
+    }
+  ],
+  "metadata": {
+    "league": "Offline",
+    "source": "initial-snapshot",
+    "notes": "Bundled snapshot used when no ingested data is available.",
+    "repoeItems": 4,
+    "pobBuilds": 2
+  }
+}
