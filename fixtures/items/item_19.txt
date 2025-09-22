@@ -1,0 +1,12 @@
+Rarity: Rare
+Elder Amber Amulet
+Elder Item
+--------
+Requirements:
+Level: 60
+--------
+Item Level: 80
+--------
++30 to Dexterity
++35% to Lightning Resistance
++1 to Minimum Frenzy Charges

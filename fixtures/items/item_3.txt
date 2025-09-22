@@ -1,0 +1,11 @@
+Rarity: Rare
+Shaper Jewelled Foil
+Shaper Item
+--------
+Requirements:
+Level: 68
+--------
+Item Level: 85
+--------
+Adds 25 to 50 Physical Damage
++30% to Global Critical Strike Multiplier

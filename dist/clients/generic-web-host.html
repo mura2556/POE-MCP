@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PoE MCP Web Host</title>
+    <script type="module">
+      async function call(method, params) {
+        const response = await fetch('http://127.0.0.1:8765/rpc', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: Date.now(), method, params }),
+        });
+        const json = await response.json();
+        document.getElementById('output').textContent = JSON.stringify(json, null, 2);
+      }
+      window.callTool = call;
+    </script>
+  </head>
+  <body>
+    <h1>PoE MCP Host</h1>
+    <button onclick="callTool('verify_coverage', {})">Verify Coverage</button>
+    <pre id="output"></pre>
+  </body>
+</html>

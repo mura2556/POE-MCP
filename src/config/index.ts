@@ -1,72 +1,38 @@
-import { config as loadEnv } from "dotenv";
-import path from "node:path";
-import { z } from "zod";
+import { config as loadEnv } from 'dotenv';
+import path from 'node:path';
 
 loadEnv();
 
-const booleanFromEnv = (value: string | undefined, defaultValue: boolean) => {
-  if (value === undefined) {
-    return defaultValue;
-  }
+export interface RuntimeConfig {
+  dataRoot: string;
+  outputDate: string;
+  manifestPath: string;
+  cacheDir: string;
+  githubToken?: string;
+  poeSessionId?: string;
+}
 
-  const normalized = value.trim().toLowerCase();
-  if (["1", "true", "yes", "on"].includes(normalized)) {
-    return true;
-  }
+const DEFAULT_DATE = '2025-09-22';
 
-  if (["0", "false", "no", "off"].includes(normalized)) {
-    return false;
-  }
+export function loadConfig(overrides: Partial<RuntimeConfig> = {}): RuntimeConfig {
+  const root = path.resolve(process.cwd(), 'data');
+  return {
+    dataRoot: process.env.POE_MCP_DATA_ROOT ?? path.join(root, 'latest'),
+    outputDate: process.env.POE_MCP_OUTPUT_DATE ?? DEFAULT_DATE,
+    manifestPath: process.env.POE_MCP_MANIFEST ?? path.resolve(process.cwd(), 'manifest.json'),
+    cacheDir: process.env.POE_MCP_CACHE_DIR ?? path.resolve(process.cwd(), '.etl-cache'),
+    githubToken: process.env.GITHUB_TOKEN,
+    poeSessionId: process.env.POE_SESSION_ID,
+    ...overrides,
+  };
+}
 
-  return defaultValue;
+export const REQUIRED_SOURCES = {
+  repoE: 'https://github.com/brather1ng/RePoE',
+  pob: 'https://github.com/PathOfBuildingCommunity/PathOfBuilding',
+  pyPoe: 'https://github.com/OmegaK2/PyPoE',
+  poeNinja: 'https://poe.ninja',
+  officialTrade: 'https://www.pathofexile.com/api/trade',
 };
 
-const rawConfigSchema = z.object({
-  server: z.object({
-    host: z.string().min(1),
-    port: z.number().int().positive(),
-    httpEnabled: z.boolean()
-  }),
-  ingest: z.object({
-    snapshotDir: z.string().min(1)
-  }),
-  ingestion: z.object({
-    forceRefresh: z.boolean()
-  })
-});
-
-export type AppConfig = z.infer<typeof rawConfigSchema>;
-
-let cachedConfig: AppConfig | null = null;
-
-export const loadConfig = (): AppConfig => {
-  if (cachedConfig) {
-    return cachedConfig;
-  }
-
-  const snapshotDir = path.resolve(
-    process.cwd(),
-    process.env.SNAPSHOT_DIR ?? "src/ingest/out"
-  );
-
-  const parsed = rawConfigSchema.parse({
-    server: {
-      host: process.env.HOST ?? "127.0.0.1",
-      port: Number.parseInt(process.env.PORT ?? "3333", 10),
-      httpEnabled: booleanFromEnv(process.env.HTTP_ENABLED, true)
-    },
-    ingest: {
-      snapshotDir
-    },
-    ingestion: {
-      forceRefresh: booleanFromEnv(process.env.INGEST_FORCE_REFRESH, false)
-    }
-  });
-
-  cachedConfig = parsed;
-  return parsed;
-};
-
-export const resetConfigCache = () => {
-  cachedConfig = null;
-};
+export const DATA_VERSION = DEFAULT_DATE;
