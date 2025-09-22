@@ -1,0 +1,7 @@
+{
+  "id": "poe-mcp-plugin",
+  "name": "PoE MCP Plugin",
+  "version": "0.0.1",
+  "description": "Connects to poe-mcp using Cursor-style config.",
+  "main": "main.js"
+}

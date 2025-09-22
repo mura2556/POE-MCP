@@ -1,121 +1,127 @@
-# Path of Exile MCP Server
+# poe-mcp
 
-This repository bootstraps a development-friendly [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that exposes curated Path of Exile economy data. It bundles an offline data snapshot, a stub ingestion pipeline, HTTP endpoints, and a suite of MCP tools so that clients can experiment with querying item prices without contacting external services.
+`poe-mcp` packages a production-grade Path of Exile (PoE1) knowledge base with a reproducible ETL pipeline, strict schemas, and a fully offline Model Context Protocol (MCP) server. The project ships curated data, validation tooling, binaries, and turnkey client configurations for the most popular MCP-enabled applications.
 
-## Highlights
+## Quick start
 
-- **TypeScript-first project** with strict compilation, Vitest-based unit tests, and hot reload via `tsx`.
-- **Snapshot-aware data context** that can ingest new data, list available snapshots, and expose a cached price index.
-- **MCP tools** for price lookups, fuzzy searching, snapshot listing, and refreshing the cached data model.
-- **Optional Fastify HTTP server** for REST-style queries in addition to the stdio MCP transport.
-- **Documented ingestion pipeline** that assembles deterministic sample data using stubbed RePoE and Path of Building loaders.
+```bash
+pnpm install
+pnpm build
+pnpm build:schemas
+pnpm build:clients
+pnpm build:bin
+pnpm etl:all
+pnpm data:validate
+```
+
+The commands above compile the TypeScript source, regenerate JSON Schema artifacts, produce multi-client MCP configs, build runnable binaries, execute the full ETL pipeline, and validate the resulting dataset. All outputs are deterministic and timestamped with `generated_at` metadata.
+
+> **Note**
+> `manifest.json` ships as a blank template; running the ETL pipeline overwrites it based on the rules described in `manifest.template.json`.
 
 ## Repository layout
 
-```text
-src/
-  config/          Environment handling and validation
-  data/            Data models, normalization helpers, and price index
-  ingest/          Offline ingestion pipeline and bundled snapshots
-  logging/         Pino logger factory
-  mcp/             MCP server bootstrap and tool registrations
-  server/          HTTP + MCP runtime entrypoints
-  examples/        Example environment configuration snippets
-  ...
-tests/             Vitest unit and integration tests
+```
+data/
+  2025-09-22/           # canonical snapshot (JSONL + Parquet)
+  latest -> 2025-09-22  # symlink updated by `pnpm etl:all`
+dist/clients/           # generated MCP client configurations
+schema/                 # Zod sources + generated JSON Schema
+src/adapters/           # data-source adapters (GitHub, poe.ninja, etc.)
+src/etl/                # orchestrated ETL modules per upstream dataset
+src/mcp/                # transport-agnostic MCP server implementation
+src/validation/         # coverage + PoE2 guardrails
+fixtures/               # item text + PoB code corpora for regression tests
+docs/                   # source manifest, schema docs, client instructions
 ```
 
-## Getting started
+## Building the dataset
 
-1. **Install dependencies**
+The ETL pipeline unifies the following upstream sources (with provenance captured in `manifest.json`):
 
-   ```bash
-   npm install
-   ```
+- **RePoE** – stats, mods, bases, passives, gems.
+- **Path of Building Community** – passive tree metadata, build encoding helpers.
+- **PyPoE** – GGPK tooling inventory for deep-data extraction.
+- **Official PoE APIs** – league metadata, trade-static definitions.
+- **poe.ninja** – economy snapshots (currencies & items).
+- **Curated PoB build corpus** – historical build coverage.
 
-2. **Review configuration**
+Run the full pipeline with:
 
-   Copy `.env.example` to `.env` (or export the variables in your shell) if you need to customize the defaults.
+```bash
+pnpm etl:all
+```
 
-   ```bash
-   cp .env.example .env
-   ```
+The command materializes normalized tables (JSONL + Parquet) in `data/<DATE>/` and refreshes `data/latest`. Incremental refreshes reuse `data/latest` as the sink via:
 
-3. **Run the offline ingestion pipeline** (optional – a seed snapshot is already provided)
+```bash
+pnpm etl:incremental
+```
 
-   ```bash
-   npm run ingest
-   ```
+### Validation
 
-4. **Start the development server** with hot reload and the HTTP API enabled:
+`pnpm data:validate` enforces:
 
-   ```bash
-   npm run dev
-   ```
+- ≥99% coverage across bases, mods, gems, and passives relative to RePoE inputs.
+- No PoE2 identifiers or mechanics.
+- Every mod reachable from at least one crafting action.
+- 50+ item-text fixtures parsed into canonical IDs.
+- 25 PoB codes round-trip without data loss.
+- ≥20 poe.ninja price points loaded for the active leagues.
 
-   For a production-style build that only runs the compiled code use:
+The validation report is also exposed as an MCP tool (`verify_coverage`).
 
-   ```bash
-   npm run build
-   npm start
-   ```
+## MCP server
 
-## Available npm scripts
+The compiled binary (`bin/poe-mcp`) exposes the following tools over stdio or HTTP JSON-RPC:
 
-| Script            | Description |
-|-------------------|-------------|
-| `npm run build`   | Compile TypeScript into the `dist/` directory. |
-| `npm run dev`     | Start the stdio MCP server and HTTP API using `tsx` watch mode. |
-| `npm start`       | Execute the compiled server from `dist/`. |
-| `npm run ingest`  | Execute the offline ingestion pipeline and write a new snapshot to `src/ingest/out`. |
-| `npm run test`    | Run the Vitest suite. |
+- `search_data`
+- `get_schema`
+- `item_parse`
+- `pob_decode` / `pob_encode`
+- `crafting_lookup`
+- `economy_snapshot`
+- `history_diff`
+- `verify_coverage`
 
-## MCP tools
+Start the server via:
 
-The MCP server registers the following tools:
+```bash
+pnpm mcp:start                 # stdio transport
+node dist/index.js serve --transport http --port 8765  # HTTP transport
+```
 
-- `price_lookup` – fetch a normalized price entry for a given item name (with optional exact matching).
-- `search_prices` – perform fuzzy matching against the price index and return the best matches.
-- `list_snapshots` – enumerate stored snapshots with metadata.
-- `refresh_snapshot` – reload the latest snapshot from disk and rebuild the price index cache.
+See [`docs/clients.md`](docs/clients.md) for per-application instructions and copy commands. All configs reference the project binary through a `{{ABS_PATH}}` placeholder; running `pnpm build:clients` rewrites the files with absolute paths.
 
-All tools return structured JSON in addition to plain-text output for compatibility.
+## CLI scripts
 
-## HTTP API (optional)
+- `pnpm etl:all` – orchestrate all extraction modules and refresh `data/<DATE>/`.
+- `pnpm etl:incremental` – re-run targeted updates into `data/latest`.
+- `pnpm data:validate` – run schema, PoE1-only, PoB, and economy coverage checks.
+- `pnpm build:clients` – regenerate client configs and Windows launchers.
+- `pnpm build:bin` – rebuild the cross-platform binary wrappers.
 
-When `HTTP_ENABLED=true` the Fastify server exposes three endpoints:
+## Data formats & schemas
 
-- `GET /health` – readiness probe returning the loaded snapshot metadata.
-- `GET /prices/:name` – fetch a single item's structured price information.
-- `GET /prices?q=chaos&limit=5` – fuzzy search across the price index.
-- `GET /snapshots` – list available snapshots and their metadata.
+Zod schemas live in `src/schema/zod.ts`; the script `pnpm build:schemas` emits corresponding JSON Schema documents in `schema/json/*.schema.json`. Each table is persisted both as `*.jsonl` and `*.parquet` (with a single-row JSON payload column for compatibility with downstream analytics tooling).
 
-## Ingestion pipeline overview
+## Binaries & runners
 
-The pipeline in `src/ingest/` demonstrates how stubbed RePoE data and Path of Building builds can be combined to produce a deterministic snapshot:
+`pnpm build:bin` generates:
 
-1. Load RePoE-style base item definitions (`src/data/repoe.ts`).
-2. Load example PoB builds (`src/data/pob.ts`).
-3. Compute usage popularity and enrich price records with confidence and listing estimates.
-4. Persist the snapshot to `src/ingest/out/`, keeping both a timestamped file and `latest.json` for quick reloads.
+- `bin/poe-mcp` – POSIX executable (Node.js shim) launching the compiled MCP server.
+- `bin/poe-mcp.cmd` – Windows launcher invoking Node.js with the same entrypoint.
 
-A seed snapshot (`src/ingest/out/initial-snapshot.json`) is committed so the server can boot offline before any ingestion runs.
-
-## Further reading
-
-- [`docs/usage.md`](docs/usage.md) – step-by-step walkthroughs for common workflows.
-- [`src/examples/`](src/examples/) – environment variable snippets for quick experimentation.
+The script is designed to integrate with packaging tools such as `pkg` or `nexe` if a native binary is required; drop the compiled artifact into `bin/` and the generated configs will adopt it automatically.
 
 ## Testing
 
-Run the Vitest suite with:
-
 ```bash
-npm run test
+pnpm test
 ```
 
-The tests cover normalization utilities, snapshot management, ingestion output, and MCP tool registration behavior.
+Vitest suites cover ETL normalization, manifest metadata, crafting lookups, MCP tool behavior, and fixture-driven regressions for item parsing and PoB encoding.
 
-## License
+## Licensing & provenance
 
-Released under the MIT License. See [`LICENSE`](LICENSE) if present or configure as needed.
+Each upstream dependency is recorded in `manifest.json` with URL, commit, license, and data hashes. An aggregated SPDX report is available in `LICENSES.txt`. The repository only targets PoE1 data (up to the 2025-09-22 snapshot); PoE2 identifiers trigger validation failures.

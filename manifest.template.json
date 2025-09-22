@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "poe-mcp manifest template",
+  "type": "object",
+  "properties": {
+    "generatedAt": { "type": ["string", "null"], "description": "UTC ISO timestamp for the dataset build" },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "url", "ref", "license", "hash"],
+        "properties": {
+          "name": { "type": "string" },
+          "url": { "type": "string" },
+          "ref": { "type": "string" },
+          "license": { "type": "string" },
+          "hash": { "type": "string" },
+          "etag": { "type": "string" },
+          "lastModified": { "type": "string" },
+          "rows": { "type": "integer" },
+          "warnings": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "hash"],
+        "properties": {
+          "path": { "type": "string" },
+          "hash": { "type": "string" },
+          "rows": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

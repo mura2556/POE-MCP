@@ -1,0 +1,13 @@
+Rarity: Rare
+Crusader Amber Amulet
+Crusader Item
+Fractured Item
+--------
+Requirements:
+Level: 50
+--------
+Item Level: 76
+--------
++40 to Dexterity
++20% to all Elemental Resistances
++15% increased Movement Speed

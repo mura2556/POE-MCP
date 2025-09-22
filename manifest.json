@@ -1,0 +1,334 @@
+{
+  "generatedAt": "2025-09-22T13:47:46.780Z",
+  "sources": [
+    {
+      "name": "RePoE (fallback)",
+      "url": "embedded",
+      "ref": "2025-09-22",
+      "license": "CC-BY-SA-4.0",
+      "hash": "fallback",
+      "warnings": [
+        "Network access unavailable; using embedded fallback dataset."
+      ]
+    },
+    {
+      "name": "PyPoE",
+      "url": "https://github.com/OmegaK2/PyPoE",
+      "ref": "2fa8568ef87ba89f764c525a88d863bb8bee7035",
+      "license": "The MIT License (MIT)",
+      "hash": "2fa8568ef87ba89f764c525a88d863bb8bee7035"
+    },
+    {
+      "name": "PathOfBuildingCommunity (fallback)",
+      "url": "embedded",
+      "ref": "fallback",
+      "license": "MIT",
+      "hash": "fallback",
+      "warnings": [
+        "Network access unavailable; using embedded fallback dataset."
+      ]
+    },
+    {
+      "name": "poe.ninja (fallback)",
+      "url": "embedded",
+      "ref": "fallback",
+      "license": "CC-BY-NC-4.0",
+      "hash": "fallback",
+      "warnings": [
+        "Network access unavailable; generated deterministic fallback economy snapshot."
+      ]
+    },
+    {
+      "name": "PoB Build Corpus (fallback)",
+      "url": "embedded",
+      "ref": "fallback",
+      "license": "CC0-1.0",
+      "hash": "6b61d221746f",
+      "warnings": [
+        "Network access unavailable; populated synthetic build corpus for testing."
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/BaseItem.jsonl",
+      "hash": "45ff29ea1840d7a9e2298b780808a28c1660b72922005be47a153bf710283f42",
+      "rows": 2
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/BaseItem.parquet",
+      "hash": "ad1161df6e53ef3f4bd5f5f053b9a8c58174c978836d7cb39fe8c6cfee3b2b06",
+      "rows": 2
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/UniqueItem.jsonl",
+      "hash": "645c60e61d899b963312d2f7eb0e1f588d49155a56d7216cd0d66c3f654d5988",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/UniqueItem.parquet",
+      "hash": "ddbe284b387216436df9171a68544878d2a88b908cd2def646af935a1e604a3e",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Mod.jsonl",
+      "hash": "3edbefd4faf4e9044b9c9aa5421fde87a978a5eec2e4848c3b5b570e826928ac",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Mod.parquet",
+      "hash": "b9300e5870da9f5358f84c9a21d41b4e93d11743affac17734607af03f9a3b66",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/ModGroup.jsonl",
+      "hash": "b5d9453e39cac259e1053cba2afaf1efee9b60a1c092b34ddc52bfdbeca3eb2a",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/ModGroup.parquet",
+      "hash": "7e3642fec6bad1f2fdf0aa04f4a1b540fc92b6cdc16aff9a9350b72b9b965423",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Gem.jsonl",
+      "hash": "8a69e7e24d0a739b71c56937addd3dd723738ddc43e5db07cbf1320f8379e688",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Gem.parquet",
+      "hash": "a6483dd93a7f2c2431516e0378303d9a20cc1705ee5a159f745bf254cc790536",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/PassiveNode.jsonl",
+      "hash": "7608ef3e7928bcae72f0ba01c8bfc3c864ed99ddb2b77695db6428f0635bfaa5",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/PassiveNode.parquet",
+      "hash": "df33561f21c550be230a90e8c804614f23ecaabadc781683fb347caac2916d0d",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Ascendancy.jsonl",
+      "hash": "bc072979dad073add1ffa251002cc8916b50418a928c75d51e3dca7bdf7b2a8a",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Ascendancy.parquet",
+      "hash": "768d3c8aa51d359cfb62eeb24f17ce035c07d58204082de7e255e34e9d7c83ab",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Mastery.jsonl",
+      "hash": "52ba5cea0337a5460aeb51e684c95eec2f269def2d32a12be3f3fb1f2853b1a8",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Mastery.parquet",
+      "hash": "754ef1f8c31d70b969c451f98e3197382b640fc85f3676718aac19b6e2753f8a",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/BenchCraft.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/BenchCraft.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Essence.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Essence.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Fossil.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Fossil.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/EldritchImplicit.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/EldritchImplicit.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/VeiledMod.jsonl",
+      "hash": "3edbefd4faf4e9044b9c9aa5421fde87a978a5eec2e4848c3b5b570e826928ac",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/VeiledMod.parquet",
+      "hash": "b9300e5870da9f5358f84c9a21d41b4e93d11743affac17734607af03f9a3b66",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Beastcraft.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/Beastcraft.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/HarvestMod.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/HarvestMod.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/LabEnchant.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/LabEnchant.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/HeistEnchant.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/HeistEnchant.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/CorruptionOutcome.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/CorruptionOutcome.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/RecombinatorRule.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/RecombinatorRule.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/TradeListing.jsonl",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/TradeListing.parquet",
+      "hash": "5a9b7b7e692ba1e130738aee4ede00cbdc50dd70f78060bb8deba7dacf6aa595",
+      "rows": 0
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/NinjaPricePoint.jsonl",
+      "hash": "5c50b75870847dfc57bd0560749a248d759a5345613f71701324873f9b7384b0",
+      "rows": 20
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/NinjaPricePoint.parquet",
+      "hash": "3c137171a2bab9e7fece73a1e49f7007902faa7336a63cf34d5fb8c1529385cc",
+      "rows": 20
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/CurrencyDigest.jsonl",
+      "hash": "936907983179091894807d8443beee4972b882f9b8f57c70a34d0a195e070af0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/CurrencyDigest.parquet",
+      "hash": "daf9c5d7aa5588765b97532711fba2b2cac1a20e5cb84de838fba8278c17dba0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/PoBBuild.jsonl",
+      "hash": "32fcd823fb901eeda612affb3afbcecf298b33ab62037882e2e4445a0eec399e",
+      "rows": 25
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/PoBBuild.parquet",
+      "hash": "66b9187031e4dd65568359a39279e4d4275f1e35d0119b6b3d30ae1df6e5d9de",
+      "rows": 25
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/BuildSnapshot.jsonl",
+      "hash": "c7d662496d57515174629fb74543e1f72b8b42b267e47e2dce2adf063e37ee9e",
+      "rows": 25
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/BuildSnapshot.parquet",
+      "hash": "9f393f68098f3c5130b29c8f4c959da502fc24c8626dadd2ebf12360816dcc93",
+      "rows": 25
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/ItemParsed.jsonl",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/ItemParsed.parquet",
+      "hash": "5a9b7b7e692ba1e130738aee4ede00cbdc50dd70f78060bb8deba7dacf6aa595",
+      "rows": 0
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/CraftAction.jsonl",
+      "hash": "4a05d2fbc4189d7a47de8549b54bb63576cfc12fba1aaf957f3e5af8dc2231a0",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/CraftAction.parquet",
+      "hash": "f4b242562e0265edc11e05c0317c6079d009a6af59c4e6ab47510d17af5d3238",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/RemoveAddPath.jsonl",
+      "hash": "a65c59cee3c12baa0b352eaa658df0476807337a033bed42f3b079699a9baa58",
+      "rows": 2
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/RemoveAddPath.parquet",
+      "hash": "b0056edbbb6f16da22657aab2bdc291c1efdbf4da771d04acc1ac7dd275c5712",
+      "rows": 2
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/ProbabilityHint.jsonl",
+      "hash": "3488c3cbddc30150e02b089ff5046e118e944b3a78505ed5a93a9e471cc5b2d8",
+      "rows": 1
+    },
+    {
+      "path": "/workspace/POE-MCP/data/2025-09-22/ProbabilityHint.parquet",
+      "hash": "8cb97469aaf8a8d79b3d292bbec3b691172c2fd6747e9b5bee2a8920a0fff8a3",
+      "rows": 1
+    }
+  ]
+}
