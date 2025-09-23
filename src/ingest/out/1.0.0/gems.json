@@ -1,0 +1,54 @@
+{
+  "Metadata/Items/Gems/SkillGemRighteousFire": {
+    "id": "Metadata/Items/Gems/SkillGemRighteousFire",
+    "name": "Righteous Fire",
+    "primaryAttribute": "Strength",
+    "tags": [
+      "fire",
+      "spell",
+      "aura"
+    ],
+    "description": "Burns enemies around you while burning yourself.",
+    "gemTags": [
+      "spell",
+      "area",
+      "fire"
+    ],
+    "weaponRestrictions": []
+  },
+  "Metadata/Items/Gems/SkillGemEssenceDrain": {
+    "id": "Metadata/Items/Gems/SkillGemEssenceDrain",
+    "name": "Essence Drain",
+    "primaryAttribute": "Intelligence",
+    "tags": [
+      "chaos",
+      "spell",
+      "duration"
+    ],
+    "description": "Fires a projectile that applies a damaging chaos effect.",
+    "gemTags": [
+      "spell",
+      "projectile",
+      "duration"
+    ],
+    "weaponRestrictions": [
+      "wand",
+      "bow"
+    ]
+  },
+  "Metadata/Items/Gems/SupportGemIncreasedCriticalDamage": {
+    "id": "Metadata/Items/Gems/SupportGemIncreasedCriticalDamage",
+    "name": "Increased Critical Damage Support",
+    "primaryAttribute": "Dexterity",
+    "tags": [
+      "support",
+      "crit"
+    ],
+    "description": "Supports skills to grant more critical strike multiplier.",
+    "gemTags": [
+      "support",
+      "critical"
+    ],
+    "weaponRestrictions": []
+  }
+}

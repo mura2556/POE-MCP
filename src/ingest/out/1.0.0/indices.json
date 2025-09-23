@@ -1,0 +1,1859 @@
+{
+  "entries": [
+    {
+      "id": "currency-chaos-orb",
+      "name": "Chaos Orb",
+      "slug": "chaos orb",
+      "type": "item",
+      "aliases": [
+        "currency-chaos-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    {
+      "id": "currency-divine-orb",
+      "name": "Divine Orb",
+      "slug": "divine orb",
+      "type": "item",
+      "aliases": [
+        "currency-divine-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    {
+      "id": "currency-exalted-orb",
+      "name": "Exalted Orb",
+      "slug": "exalted orb",
+      "type": "item",
+      "aliases": [
+        "currency-exalted-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    {
+      "id": "fragment-maven-writ",
+      "name": "The Maven's Writ",
+      "slug": "the mavens writ",
+      "type": "item",
+      "aliases": [
+        "fragment-maven-writ"
+      ],
+      "tags": [
+        "fragment"
+      ]
+    },
+    {
+      "id": "lifeforce-vivid",
+      "name": "Vivid Lifeforce",
+      "slug": "vivid lifeforce",
+      "type": "item",
+      "aliases": [
+        "lifeforce-vivid"
+      ],
+      "tags": [
+        "craft"
+      ]
+    },
+    {
+      "id": "fossil-aetheric",
+      "name": "Aetheric Fossil",
+      "slug": "aetheric fossil",
+      "type": "item",
+      "aliases": [
+        "fossil-aetheric"
+      ],
+      "tags": [
+        "fossil"
+      ]
+    },
+    {
+      "id": "currency",
+      "name": "Currency Overview",
+      "slug": "currency overview",
+      "type": "price-table",
+      "aliases": [
+        "currency"
+      ]
+    },
+    {
+      "id": "fragment",
+      "name": "Fragments",
+      "slug": "fragments",
+      "type": "price-table",
+      "aliases": [
+        "fragment"
+      ]
+    },
+    {
+      "id": "crafting",
+      "name": "Crafting Components",
+      "slug": "crafting components",
+      "type": "price-table",
+      "aliases": [
+        "craft"
+      ]
+    },
+    {
+      "id": "mod-prefix-life-t1",
+      "name": "Fecund",
+      "slug": "fecund",
+      "type": "mod",
+      "aliases": [
+        "mod-prefix-life-t1",
+        "LocalLife"
+      ],
+      "tags": [
+        "life",
+        "defence"
+      ]
+    },
+    {
+      "id": "mod-suffix-resist-all-t2",
+      "name": "of the Order",
+      "slug": "of the order",
+      "type": "mod",
+      "aliases": [
+        "mod-suffix-resist-all-t2",
+        "ElementalResistances"
+      ],
+      "tags": [
+        "resistance",
+        "defence"
+      ]
+    },
+    {
+      "id": "mod-suffix-attack-speed-t3",
+      "name": "of Acceleration",
+      "slug": "of acceleration",
+      "type": "mod",
+      "aliases": [
+        "mod-suffix-attack-speed-t3",
+        "LocalAttackSpeed"
+      ],
+      "tags": [
+        "attack",
+        "speed"
+      ]
+    },
+    {
+      "id": "mod-prefix-spell-damage-t1",
+      "name": "Flaring",
+      "slug": "flaring",
+      "type": "mod",
+      "aliases": [
+        "mod-prefix-spell-damage-t1",
+        "LocalSpellDamage"
+      ],
+      "tags": [
+        "spell",
+        "caster"
+      ]
+    },
+    {
+      "id": "Metadata/Items/Armours/BodyArmours/BodyStrInt5",
+      "name": "Saintly Chainmail",
+      "slug": "saintly chainmail",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/BodyArmours/BodyStrInt5"
+      ],
+      "tags": [
+        "armour",
+        "str/int",
+        "body_armour"
+      ]
+    },
+    {
+      "id": "Metadata/Items/Armours/Gloves/GlovesStr6",
+      "name": "Titan Gauntlets",
+      "slug": "titan gauntlets",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/Gloves/GlovesStr6"
+      ],
+      "tags": [
+        "armour",
+        "str",
+        "gloves"
+      ]
+    },
+    {
+      "id": "Metadata/Items/Rings/RingDexInt11",
+      "name": "Opal Ring",
+      "slug": "opal ring",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Rings/RingDexInt11"
+      ],
+      "tags": [
+        "jewellery",
+        "int",
+        "dex",
+        "ring"
+      ]
+    },
+    {
+      "id": "Metadata/Items/Wands/WandInt7",
+      "name": "Imbued Wand",
+      "slug": "imbued wand",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Wands/WandInt7"
+      ],
+      "tags": [
+        "weapon",
+        "wand",
+        "int"
+      ]
+    },
+    {
+      "id": "Metadata/Items/Armours/Helmets/HelmetStrDex5",
+      "name": "Royal Burgonet",
+      "slug": "royal burgonet",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/Helmets/HelmetStrDex5"
+      ],
+      "tags": [
+        "armour",
+        "str",
+        "helmet"
+      ]
+    },
+    {
+      "id": "Metadata/Items/Gems/SkillGemRighteousFire",
+      "name": "Righteous Fire",
+      "slug": "righteous fire",
+      "type": "gem",
+      "aliases": [
+        "Metadata/Items/Gems/SkillGemRighteousFire"
+      ],
+      "tags": [
+        "fire",
+        "spell",
+        "aura"
+      ]
+    },
+    {
+      "id": "Metadata/Items/Gems/SkillGemEssenceDrain",
+      "name": "Essence Drain",
+      "slug": "essence drain",
+      "type": "gem",
+      "aliases": [
+        "Metadata/Items/Gems/SkillGemEssenceDrain"
+      ],
+      "tags": [
+        "chaos",
+        "spell",
+        "duration"
+      ]
+    },
+    {
+      "id": "Metadata/Items/Gems/SupportGemIncreasedCriticalDamage",
+      "name": "Increased Critical Damage Support",
+      "slug": "increased critical damage support",
+      "type": "gem",
+      "aliases": [
+        "Metadata/Items/Gems/SupportGemIncreasedCriticalDamage"
+      ],
+      "tags": [
+        "support",
+        "crit"
+      ]
+    },
+    {
+      "id": "tag-armour",
+      "name": "Armour",
+      "slug": "armour",
+      "type": "tag",
+      "aliases": [
+        "tag-armour",
+        "armor"
+      ]
+    },
+    {
+      "id": "tag-life",
+      "name": "Life",
+      "slug": "life",
+      "type": "tag",
+      "aliases": [
+        "tag-life"
+      ]
+    },
+    {
+      "id": "tag-resistance",
+      "name": "Resistance",
+      "slug": "resistance",
+      "type": "tag",
+      "aliases": [
+        "tag-resistance",
+        "res"
+      ]
+    },
+    {
+      "id": "tag-caster",
+      "name": "Caster",
+      "slug": "caster",
+      "type": "tag",
+      "aliases": [
+        "tag-caster"
+      ]
+    },
+    {
+      "id": "tag-weapon",
+      "name": "Weapon",
+      "slug": "weapon",
+      "type": "tag",
+      "aliases": [
+        "tag-weapon"
+      ]
+    },
+    {
+      "id": "tag-str-int",
+      "name": "str/int",
+      "slug": "strint",
+      "type": "tag",
+      "aliases": [
+        "tag-str-int"
+      ]
+    },
+    {
+      "id": "tag-body-armour",
+      "name": "body_armour",
+      "slug": "bodyarmour",
+      "type": "tag",
+      "aliases": [
+        "tag-body-armour"
+      ]
+    },
+    {
+      "id": "tag-str",
+      "name": "str",
+      "slug": "str",
+      "type": "tag",
+      "aliases": [
+        "tag-str"
+      ]
+    },
+    {
+      "id": "tag-gloves",
+      "name": "gloves",
+      "slug": "gloves",
+      "type": "tag",
+      "aliases": [
+        "tag-gloves"
+      ]
+    },
+    {
+      "id": "tag-jewellery",
+      "name": "jewellery",
+      "slug": "jewellery",
+      "type": "tag",
+      "aliases": [
+        "tag-jewellery"
+      ]
+    },
+    {
+      "id": "tag-int",
+      "name": "int",
+      "slug": "int",
+      "type": "tag",
+      "aliases": [
+        "tag-int"
+      ]
+    },
+    {
+      "id": "tag-dex",
+      "name": "dex",
+      "slug": "dex",
+      "type": "tag",
+      "aliases": [
+        "tag-dex"
+      ]
+    },
+    {
+      "id": "tag-ring",
+      "name": "ring",
+      "slug": "ring",
+      "type": "tag",
+      "aliases": [
+        "tag-ring"
+      ]
+    },
+    {
+      "id": "tag-wand",
+      "name": "wand",
+      "slug": "wand",
+      "type": "tag",
+      "aliases": [
+        "tag-wand"
+      ]
+    },
+    {
+      "id": "tag-helmet",
+      "name": "helmet",
+      "slug": "helmet",
+      "type": "tag",
+      "aliases": [
+        "tag-helmet"
+      ]
+    },
+    {
+      "id": "tag-defence",
+      "name": "defence",
+      "slug": "defence",
+      "type": "tag",
+      "aliases": [
+        "tag-defence"
+      ]
+    },
+    {
+      "id": "tag-shield",
+      "name": "shield",
+      "slug": "shield",
+      "type": "tag",
+      "aliases": [
+        "tag-shield"
+      ]
+    },
+    {
+      "id": "tag-attack",
+      "name": "attack",
+      "slug": "attack",
+      "type": "tag",
+      "aliases": [
+        "tag-attack"
+      ]
+    },
+    {
+      "id": "tag-speed",
+      "name": "speed",
+      "slug": "speed",
+      "type": "tag",
+      "aliases": [
+        "tag-speed"
+      ]
+    },
+    {
+      "id": "tag-bow",
+      "name": "bow",
+      "slug": "bow",
+      "type": "tag",
+      "aliases": [
+        "tag-bow"
+      ]
+    },
+    {
+      "id": "tag-spell",
+      "name": "spell",
+      "slug": "spell",
+      "type": "tag",
+      "aliases": [
+        "tag-spell"
+      ]
+    },
+    {
+      "id": "tag-staff",
+      "name": "staff",
+      "slug": "staff",
+      "type": "tag",
+      "aliases": [
+        "tag-staff"
+      ]
+    },
+    {
+      "id": "tag-fire",
+      "name": "fire",
+      "slug": "fire",
+      "type": "tag",
+      "aliases": [
+        "tag-fire"
+      ]
+    },
+    {
+      "id": "tag-aura",
+      "name": "aura",
+      "slug": "aura",
+      "type": "tag",
+      "aliases": [
+        "tag-aura"
+      ]
+    },
+    {
+      "id": "tag-chaos",
+      "name": "chaos",
+      "slug": "chaos",
+      "type": "tag",
+      "aliases": [
+        "tag-chaos"
+      ]
+    },
+    {
+      "id": "tag-duration",
+      "name": "duration",
+      "slug": "duration",
+      "type": "tag",
+      "aliases": [
+        "tag-duration"
+      ]
+    },
+    {
+      "id": "tag-support",
+      "name": "support",
+      "slug": "support",
+      "type": "tag",
+      "aliases": [
+        "tag-support"
+      ]
+    },
+    {
+      "id": "tag-crit",
+      "name": "crit",
+      "slug": "crit",
+      "type": "tag",
+      "aliases": [
+        "tag-crit"
+      ]
+    },
+    {
+      "id": "rule-essence-life",
+      "name": "Use Essences for High Life",
+      "slug": "use essences for high life",
+      "type": "rule",
+      "aliases": [
+        "rule-essence-life"
+      ],
+      "tags": [
+        "life",
+        "armour",
+        "essence"
+      ]
+    },
+    {
+      "id": "rule-aetheric-fossil",
+      "name": "Aetheric Fossils for Spell Damage",
+      "slug": "aetheric fossils for spell damage",
+      "type": "rule",
+      "aliases": [
+        "rule-aetheric-fossil"
+      ],
+      "tags": [
+        "caster",
+        "spell",
+        "fossil"
+      ]
+    },
+    {
+      "id": "rule-attack-speed-bench",
+      "name": "Bench Craft Attack Speed",
+      "slug": "bench craft attack speed",
+      "type": "rule",
+      "aliases": [
+        "rule-attack-speed-bench"
+      ],
+      "tags": [
+        "attack",
+        "speed",
+        "bench"
+      ]
+    },
+    {
+      "id": "starter-righteous-fire",
+      "name": "Starter Righteous Fire",
+      "slug": "starter righteous fire",
+      "type": "pob-build",
+      "aliases": [
+        "starter-righteous-fire",
+        "Righteous Fire"
+      ],
+      "tags": [
+        "league-starter",
+        "fire",
+        "dot"
+      ]
+    },
+    {
+      "id": "essence-shotgun",
+      "name": "Essence Drain Trickster",
+      "slug": "essence drain trickster",
+      "type": "pob-build",
+      "aliases": [
+        "essence-shotgun",
+        "Essence Drain"
+      ],
+      "tags": [
+        "dot",
+        "trickster"
+      ]
+    }
+  ],
+  "bySlug": {
+    "chaos orb": {
+      "id": "currency-chaos-orb",
+      "name": "Chaos Orb",
+      "slug": "chaos orb",
+      "type": "item",
+      "aliases": [
+        "currency-chaos-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    "currencychaosorb": {
+      "id": "currency-chaos-orb",
+      "name": "Chaos Orb",
+      "slug": "chaos orb",
+      "type": "item",
+      "aliases": [
+        "currency-chaos-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    "divine orb": {
+      "id": "currency-divine-orb",
+      "name": "Divine Orb",
+      "slug": "divine orb",
+      "type": "item",
+      "aliases": [
+        "currency-divine-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    "currencydivineorb": {
+      "id": "currency-divine-orb",
+      "name": "Divine Orb",
+      "slug": "divine orb",
+      "type": "item",
+      "aliases": [
+        "currency-divine-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    "exalted orb": {
+      "id": "currency-exalted-orb",
+      "name": "Exalted Orb",
+      "slug": "exalted orb",
+      "type": "item",
+      "aliases": [
+        "currency-exalted-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    "currencyexaltedorb": {
+      "id": "currency-exalted-orb",
+      "name": "Exalted Orb",
+      "slug": "exalted orb",
+      "type": "item",
+      "aliases": [
+        "currency-exalted-orb"
+      ],
+      "tags": [
+        "currency"
+      ]
+    },
+    "the mavens writ": {
+      "id": "fragment-maven-writ",
+      "name": "The Maven's Writ",
+      "slug": "the mavens writ",
+      "type": "item",
+      "aliases": [
+        "fragment-maven-writ"
+      ],
+      "tags": [
+        "fragment"
+      ]
+    },
+    "fragmentmavenwrit": {
+      "id": "fragment-maven-writ",
+      "name": "The Maven's Writ",
+      "slug": "the mavens writ",
+      "type": "item",
+      "aliases": [
+        "fragment-maven-writ"
+      ],
+      "tags": [
+        "fragment"
+      ]
+    },
+    "vivid lifeforce": {
+      "id": "lifeforce-vivid",
+      "name": "Vivid Lifeforce",
+      "slug": "vivid lifeforce",
+      "type": "item",
+      "aliases": [
+        "lifeforce-vivid"
+      ],
+      "tags": [
+        "craft"
+      ]
+    },
+    "lifeforcevivid": {
+      "id": "lifeforce-vivid",
+      "name": "Vivid Lifeforce",
+      "slug": "vivid lifeforce",
+      "type": "item",
+      "aliases": [
+        "lifeforce-vivid"
+      ],
+      "tags": [
+        "craft"
+      ]
+    },
+    "aetheric fossil": {
+      "id": "fossil-aetheric",
+      "name": "Aetheric Fossil",
+      "slug": "aetheric fossil",
+      "type": "item",
+      "aliases": [
+        "fossil-aetheric"
+      ],
+      "tags": [
+        "fossil"
+      ]
+    },
+    "fossilaetheric": {
+      "id": "fossil-aetheric",
+      "name": "Aetheric Fossil",
+      "slug": "aetheric fossil",
+      "type": "item",
+      "aliases": [
+        "fossil-aetheric"
+      ],
+      "tags": [
+        "fossil"
+      ]
+    },
+    "currency overview": {
+      "id": "currency",
+      "name": "Currency Overview",
+      "slug": "currency overview",
+      "type": "price-table",
+      "aliases": [
+        "currency"
+      ]
+    },
+    "currency": {
+      "id": "currency",
+      "name": "Currency Overview",
+      "slug": "currency overview",
+      "type": "price-table",
+      "aliases": [
+        "currency"
+      ]
+    },
+    "fragments": {
+      "id": "fragment",
+      "name": "Fragments",
+      "slug": "fragments",
+      "type": "price-table",
+      "aliases": [
+        "fragment"
+      ]
+    },
+    "fragment": {
+      "id": "fragment",
+      "name": "Fragments",
+      "slug": "fragments",
+      "type": "price-table",
+      "aliases": [
+        "fragment"
+      ]
+    },
+    "crafting components": {
+      "id": "crafting",
+      "name": "Crafting Components",
+      "slug": "crafting components",
+      "type": "price-table",
+      "aliases": [
+        "craft"
+      ]
+    },
+    "craft": {
+      "id": "crafting",
+      "name": "Crafting Components",
+      "slug": "crafting components",
+      "type": "price-table",
+      "aliases": [
+        "craft"
+      ]
+    },
+    "fecund": {
+      "id": "mod-prefix-life-t1",
+      "name": "Fecund",
+      "slug": "fecund",
+      "type": "mod",
+      "aliases": [
+        "mod-prefix-life-t1",
+        "LocalLife"
+      ],
+      "tags": [
+        "life",
+        "defence"
+      ]
+    },
+    "modprefixlifet1": {
+      "id": "mod-prefix-life-t1",
+      "name": "Fecund",
+      "slug": "fecund",
+      "type": "mod",
+      "aliases": [
+        "mod-prefix-life-t1",
+        "LocalLife"
+      ],
+      "tags": [
+        "life",
+        "defence"
+      ]
+    },
+    "locallife": {
+      "id": "mod-prefix-life-t1",
+      "name": "Fecund",
+      "slug": "fecund",
+      "type": "mod",
+      "aliases": [
+        "mod-prefix-life-t1",
+        "LocalLife"
+      ],
+      "tags": [
+        "life",
+        "defence"
+      ]
+    },
+    "of the order": {
+      "id": "mod-suffix-resist-all-t2",
+      "name": "of the Order",
+      "slug": "of the order",
+      "type": "mod",
+      "aliases": [
+        "mod-suffix-resist-all-t2",
+        "ElementalResistances"
+      ],
+      "tags": [
+        "resistance",
+        "defence"
+      ]
+    },
+    "modsuffixresistallt2": {
+      "id": "mod-suffix-resist-all-t2",
+      "name": "of the Order",
+      "slug": "of the order",
+      "type": "mod",
+      "aliases": [
+        "mod-suffix-resist-all-t2",
+        "ElementalResistances"
+      ],
+      "tags": [
+        "resistance",
+        "defence"
+      ]
+    },
+    "elementalresistances": {
+      "id": "mod-suffix-resist-all-t2",
+      "name": "of the Order",
+      "slug": "of the order",
+      "type": "mod",
+      "aliases": [
+        "mod-suffix-resist-all-t2",
+        "ElementalResistances"
+      ],
+      "tags": [
+        "resistance",
+        "defence"
+      ]
+    },
+    "of acceleration": {
+      "id": "mod-suffix-attack-speed-t3",
+      "name": "of Acceleration",
+      "slug": "of acceleration",
+      "type": "mod",
+      "aliases": [
+        "mod-suffix-attack-speed-t3",
+        "LocalAttackSpeed"
+      ],
+      "tags": [
+        "attack",
+        "speed"
+      ]
+    },
+    "modsuffixattackspeedt3": {
+      "id": "mod-suffix-attack-speed-t3",
+      "name": "of Acceleration",
+      "slug": "of acceleration",
+      "type": "mod",
+      "aliases": [
+        "mod-suffix-attack-speed-t3",
+        "LocalAttackSpeed"
+      ],
+      "tags": [
+        "attack",
+        "speed"
+      ]
+    },
+    "localattackspeed": {
+      "id": "mod-suffix-attack-speed-t3",
+      "name": "of Acceleration",
+      "slug": "of acceleration",
+      "type": "mod",
+      "aliases": [
+        "mod-suffix-attack-speed-t3",
+        "LocalAttackSpeed"
+      ],
+      "tags": [
+        "attack",
+        "speed"
+      ]
+    },
+    "flaring": {
+      "id": "mod-prefix-spell-damage-t1",
+      "name": "Flaring",
+      "slug": "flaring",
+      "type": "mod",
+      "aliases": [
+        "mod-prefix-spell-damage-t1",
+        "LocalSpellDamage"
+      ],
+      "tags": [
+        "spell",
+        "caster"
+      ]
+    },
+    "modprefixspelldamaget1": {
+      "id": "mod-prefix-spell-damage-t1",
+      "name": "Flaring",
+      "slug": "flaring",
+      "type": "mod",
+      "aliases": [
+        "mod-prefix-spell-damage-t1",
+        "LocalSpellDamage"
+      ],
+      "tags": [
+        "spell",
+        "caster"
+      ]
+    },
+    "localspelldamage": {
+      "id": "mod-prefix-spell-damage-t1",
+      "name": "Flaring",
+      "slug": "flaring",
+      "type": "mod",
+      "aliases": [
+        "mod-prefix-spell-damage-t1",
+        "LocalSpellDamage"
+      ],
+      "tags": [
+        "spell",
+        "caster"
+      ]
+    },
+    "saintly chainmail": {
+      "id": "Metadata/Items/Armours/BodyArmours/BodyStrInt5",
+      "name": "Saintly Chainmail",
+      "slug": "saintly chainmail",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/BodyArmours/BodyStrInt5"
+      ],
+      "tags": [
+        "armour",
+        "str/int",
+        "body_armour"
+      ]
+    },
+    "metadataitemsarmoursbodyarmoursbodystrint5": {
+      "id": "Metadata/Items/Armours/BodyArmours/BodyStrInt5",
+      "name": "Saintly Chainmail",
+      "slug": "saintly chainmail",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/BodyArmours/BodyStrInt5"
+      ],
+      "tags": [
+        "armour",
+        "str/int",
+        "body_armour"
+      ]
+    },
+    "titan gauntlets": {
+      "id": "Metadata/Items/Armours/Gloves/GlovesStr6",
+      "name": "Titan Gauntlets",
+      "slug": "titan gauntlets",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/Gloves/GlovesStr6"
+      ],
+      "tags": [
+        "armour",
+        "str",
+        "gloves"
+      ]
+    },
+    "metadataitemsarmoursglovesglovesstr6": {
+      "id": "Metadata/Items/Armours/Gloves/GlovesStr6",
+      "name": "Titan Gauntlets",
+      "slug": "titan gauntlets",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/Gloves/GlovesStr6"
+      ],
+      "tags": [
+        "armour",
+        "str",
+        "gloves"
+      ]
+    },
+    "opal ring": {
+      "id": "Metadata/Items/Rings/RingDexInt11",
+      "name": "Opal Ring",
+      "slug": "opal ring",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Rings/RingDexInt11"
+      ],
+      "tags": [
+        "jewellery",
+        "int",
+        "dex",
+        "ring"
+      ]
+    },
+    "metadataitemsringsringdexint11": {
+      "id": "Metadata/Items/Rings/RingDexInt11",
+      "name": "Opal Ring",
+      "slug": "opal ring",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Rings/RingDexInt11"
+      ],
+      "tags": [
+        "jewellery",
+        "int",
+        "dex",
+        "ring"
+      ]
+    },
+    "imbued wand": {
+      "id": "Metadata/Items/Wands/WandInt7",
+      "name": "Imbued Wand",
+      "slug": "imbued wand",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Wands/WandInt7"
+      ],
+      "tags": [
+        "weapon",
+        "wand",
+        "int"
+      ]
+    },
+    "metadataitemswandswandint7": {
+      "id": "Metadata/Items/Wands/WandInt7",
+      "name": "Imbued Wand",
+      "slug": "imbued wand",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Wands/WandInt7"
+      ],
+      "tags": [
+        "weapon",
+        "wand",
+        "int"
+      ]
+    },
+    "royal burgonet": {
+      "id": "Metadata/Items/Armours/Helmets/HelmetStrDex5",
+      "name": "Royal Burgonet",
+      "slug": "royal burgonet",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/Helmets/HelmetStrDex5"
+      ],
+      "tags": [
+        "armour",
+        "str",
+        "helmet"
+      ]
+    },
+    "metadataitemsarmourshelmetshelmetstrdex5": {
+      "id": "Metadata/Items/Armours/Helmets/HelmetStrDex5",
+      "name": "Royal Burgonet",
+      "slug": "royal burgonet",
+      "type": "base",
+      "aliases": [
+        "Metadata/Items/Armours/Helmets/HelmetStrDex5"
+      ],
+      "tags": [
+        "armour",
+        "str",
+        "helmet"
+      ]
+    },
+    "righteous fire": {
+      "id": "starter-righteous-fire",
+      "name": "Starter Righteous Fire",
+      "slug": "starter righteous fire",
+      "type": "pob-build",
+      "aliases": [
+        "starter-righteous-fire",
+        "Righteous Fire"
+      ],
+      "tags": [
+        "league-starter",
+        "fire",
+        "dot"
+      ]
+    },
+    "metadataitemsgemsskillgemrighteousfire": {
+      "id": "Metadata/Items/Gems/SkillGemRighteousFire",
+      "name": "Righteous Fire",
+      "slug": "righteous fire",
+      "type": "gem",
+      "aliases": [
+        "Metadata/Items/Gems/SkillGemRighteousFire"
+      ],
+      "tags": [
+        "fire",
+        "spell",
+        "aura"
+      ]
+    },
+    "essence drain": {
+      "id": "essence-shotgun",
+      "name": "Essence Drain Trickster",
+      "slug": "essence drain trickster",
+      "type": "pob-build",
+      "aliases": [
+        "essence-shotgun",
+        "Essence Drain"
+      ],
+      "tags": [
+        "dot",
+        "trickster"
+      ]
+    },
+    "metadataitemsgemsskillgemessencedrain": {
+      "id": "Metadata/Items/Gems/SkillGemEssenceDrain",
+      "name": "Essence Drain",
+      "slug": "essence drain",
+      "type": "gem",
+      "aliases": [
+        "Metadata/Items/Gems/SkillGemEssenceDrain"
+      ],
+      "tags": [
+        "chaos",
+        "spell",
+        "duration"
+      ]
+    },
+    "increased critical damage support": {
+      "id": "Metadata/Items/Gems/SupportGemIncreasedCriticalDamage",
+      "name": "Increased Critical Damage Support",
+      "slug": "increased critical damage support",
+      "type": "gem",
+      "aliases": [
+        "Metadata/Items/Gems/SupportGemIncreasedCriticalDamage"
+      ],
+      "tags": [
+        "support",
+        "crit"
+      ]
+    },
+    "metadataitemsgemssupportgemincreasedcriticaldamage": {
+      "id": "Metadata/Items/Gems/SupportGemIncreasedCriticalDamage",
+      "name": "Increased Critical Damage Support",
+      "slug": "increased critical damage support",
+      "type": "gem",
+      "aliases": [
+        "Metadata/Items/Gems/SupportGemIncreasedCriticalDamage"
+      ],
+      "tags": [
+        "support",
+        "crit"
+      ]
+    },
+    "armour": {
+      "id": "tag-armour",
+      "name": "Armour",
+      "slug": "armour",
+      "type": "tag",
+      "aliases": [
+        "tag-armour",
+        "armor"
+      ]
+    },
+    "tagarmour": {
+      "id": "tag-armour",
+      "name": "Armour",
+      "slug": "armour",
+      "type": "tag",
+      "aliases": [
+        "tag-armour",
+        "armor"
+      ]
+    },
+    "armor": {
+      "id": "tag-armour",
+      "name": "Armour",
+      "slug": "armour",
+      "type": "tag",
+      "aliases": [
+        "tag-armour",
+        "armor"
+      ]
+    },
+    "life": {
+      "id": "tag-life",
+      "name": "Life",
+      "slug": "life",
+      "type": "tag",
+      "aliases": [
+        "tag-life"
+      ]
+    },
+    "taglife": {
+      "id": "tag-life",
+      "name": "Life",
+      "slug": "life",
+      "type": "tag",
+      "aliases": [
+        "tag-life"
+      ]
+    },
+    "resistance": {
+      "id": "tag-resistance",
+      "name": "Resistance",
+      "slug": "resistance",
+      "type": "tag",
+      "aliases": [
+        "tag-resistance",
+        "res"
+      ]
+    },
+    "tagresistance": {
+      "id": "tag-resistance",
+      "name": "Resistance",
+      "slug": "resistance",
+      "type": "tag",
+      "aliases": [
+        "tag-resistance",
+        "res"
+      ]
+    },
+    "res": {
+      "id": "tag-resistance",
+      "name": "Resistance",
+      "slug": "resistance",
+      "type": "tag",
+      "aliases": [
+        "tag-resistance",
+        "res"
+      ]
+    },
+    "caster": {
+      "id": "tag-caster",
+      "name": "Caster",
+      "slug": "caster",
+      "type": "tag",
+      "aliases": [
+        "tag-caster"
+      ]
+    },
+    "tagcaster": {
+      "id": "tag-caster",
+      "name": "Caster",
+      "slug": "caster",
+      "type": "tag",
+      "aliases": [
+        "tag-caster"
+      ]
+    },
+    "weapon": {
+      "id": "tag-weapon",
+      "name": "Weapon",
+      "slug": "weapon",
+      "type": "tag",
+      "aliases": [
+        "tag-weapon"
+      ]
+    },
+    "tagweapon": {
+      "id": "tag-weapon",
+      "name": "Weapon",
+      "slug": "weapon",
+      "type": "tag",
+      "aliases": [
+        "tag-weapon"
+      ]
+    },
+    "strint": {
+      "id": "tag-str-int",
+      "name": "str/int",
+      "slug": "strint",
+      "type": "tag",
+      "aliases": [
+        "tag-str-int"
+      ]
+    },
+    "tagstrint": {
+      "id": "tag-str-int",
+      "name": "str/int",
+      "slug": "strint",
+      "type": "tag",
+      "aliases": [
+        "tag-str-int"
+      ]
+    },
+    "bodyarmour": {
+      "id": "tag-body-armour",
+      "name": "body_armour",
+      "slug": "bodyarmour",
+      "type": "tag",
+      "aliases": [
+        "tag-body-armour"
+      ]
+    },
+    "tagbodyarmour": {
+      "id": "tag-body-armour",
+      "name": "body_armour",
+      "slug": "bodyarmour",
+      "type": "tag",
+      "aliases": [
+        "tag-body-armour"
+      ]
+    },
+    "str": {
+      "id": "tag-str",
+      "name": "str",
+      "slug": "str",
+      "type": "tag",
+      "aliases": [
+        "tag-str"
+      ]
+    },
+    "tagstr": {
+      "id": "tag-str",
+      "name": "str",
+      "slug": "str",
+      "type": "tag",
+      "aliases": [
+        "tag-str"
+      ]
+    },
+    "gloves": {
+      "id": "tag-gloves",
+      "name": "gloves",
+      "slug": "gloves",
+      "type": "tag",
+      "aliases": [
+        "tag-gloves"
+      ]
+    },
+    "taggloves": {
+      "id": "tag-gloves",
+      "name": "gloves",
+      "slug": "gloves",
+      "type": "tag",
+      "aliases": [
+        "tag-gloves"
+      ]
+    },
+    "jewellery": {
+      "id": "tag-jewellery",
+      "name": "jewellery",
+      "slug": "jewellery",
+      "type": "tag",
+      "aliases": [
+        "tag-jewellery"
+      ]
+    },
+    "tagjewellery": {
+      "id": "tag-jewellery",
+      "name": "jewellery",
+      "slug": "jewellery",
+      "type": "tag",
+      "aliases": [
+        "tag-jewellery"
+      ]
+    },
+    "int": {
+      "id": "tag-int",
+      "name": "int",
+      "slug": "int",
+      "type": "tag",
+      "aliases": [
+        "tag-int"
+      ]
+    },
+    "tagint": {
+      "id": "tag-int",
+      "name": "int",
+      "slug": "int",
+      "type": "tag",
+      "aliases": [
+        "tag-int"
+      ]
+    },
+    "dex": {
+      "id": "tag-dex",
+      "name": "dex",
+      "slug": "dex",
+      "type": "tag",
+      "aliases": [
+        "tag-dex"
+      ]
+    },
+    "tagdex": {
+      "id": "tag-dex",
+      "name": "dex",
+      "slug": "dex",
+      "type": "tag",
+      "aliases": [
+        "tag-dex"
+      ]
+    },
+    "ring": {
+      "id": "tag-ring",
+      "name": "ring",
+      "slug": "ring",
+      "type": "tag",
+      "aliases": [
+        "tag-ring"
+      ]
+    },
+    "tagring": {
+      "id": "tag-ring",
+      "name": "ring",
+      "slug": "ring",
+      "type": "tag",
+      "aliases": [
+        "tag-ring"
+      ]
+    },
+    "wand": {
+      "id": "tag-wand",
+      "name": "wand",
+      "slug": "wand",
+      "type": "tag",
+      "aliases": [
+        "tag-wand"
+      ]
+    },
+    "tagwand": {
+      "id": "tag-wand",
+      "name": "wand",
+      "slug": "wand",
+      "type": "tag",
+      "aliases": [
+        "tag-wand"
+      ]
+    },
+    "helmet": {
+      "id": "tag-helmet",
+      "name": "helmet",
+      "slug": "helmet",
+      "type": "tag",
+      "aliases": [
+        "tag-helmet"
+      ]
+    },
+    "taghelmet": {
+      "id": "tag-helmet",
+      "name": "helmet",
+      "slug": "helmet",
+      "type": "tag",
+      "aliases": [
+        "tag-helmet"
+      ]
+    },
+    "defence": {
+      "id": "tag-defence",
+      "name": "defence",
+      "slug": "defence",
+      "type": "tag",
+      "aliases": [
+        "tag-defence"
+      ]
+    },
+    "tagdefence": {
+      "id": "tag-defence",
+      "name": "defence",
+      "slug": "defence",
+      "type": "tag",
+      "aliases": [
+        "tag-defence"
+      ]
+    },
+    "shield": {
+      "id": "tag-shield",
+      "name": "shield",
+      "slug": "shield",
+      "type": "tag",
+      "aliases": [
+        "tag-shield"
+      ]
+    },
+    "tagshield": {
+      "id": "tag-shield",
+      "name": "shield",
+      "slug": "shield",
+      "type": "tag",
+      "aliases": [
+        "tag-shield"
+      ]
+    },
+    "attack": {
+      "id": "tag-attack",
+      "name": "attack",
+      "slug": "attack",
+      "type": "tag",
+      "aliases": [
+        "tag-attack"
+      ]
+    },
+    "tagattack": {
+      "id": "tag-attack",
+      "name": "attack",
+      "slug": "attack",
+      "type": "tag",
+      "aliases": [
+        "tag-attack"
+      ]
+    },
+    "speed": {
+      "id": "tag-speed",
+      "name": "speed",
+      "slug": "speed",
+      "type": "tag",
+      "aliases": [
+        "tag-speed"
+      ]
+    },
+    "tagspeed": {
+      "id": "tag-speed",
+      "name": "speed",
+      "slug": "speed",
+      "type": "tag",
+      "aliases": [
+        "tag-speed"
+      ]
+    },
+    "bow": {
+      "id": "tag-bow",
+      "name": "bow",
+      "slug": "bow",
+      "type": "tag",
+      "aliases": [
+        "tag-bow"
+      ]
+    },
+    "tagbow": {
+      "id": "tag-bow",
+      "name": "bow",
+      "slug": "bow",
+      "type": "tag",
+      "aliases": [
+        "tag-bow"
+      ]
+    },
+    "spell": {
+      "id": "tag-spell",
+      "name": "spell",
+      "slug": "spell",
+      "type": "tag",
+      "aliases": [
+        "tag-spell"
+      ]
+    },
+    "tagspell": {
+      "id": "tag-spell",
+      "name": "spell",
+      "slug": "spell",
+      "type": "tag",
+      "aliases": [
+        "tag-spell"
+      ]
+    },
+    "staff": {
+      "id": "tag-staff",
+      "name": "staff",
+      "slug": "staff",
+      "type": "tag",
+      "aliases": [
+        "tag-staff"
+      ]
+    },
+    "tagstaff": {
+      "id": "tag-staff",
+      "name": "staff",
+      "slug": "staff",
+      "type": "tag",
+      "aliases": [
+        "tag-staff"
+      ]
+    },
+    "fire": {
+      "id": "tag-fire",
+      "name": "fire",
+      "slug": "fire",
+      "type": "tag",
+      "aliases": [
+        "tag-fire"
+      ]
+    },
+    "tagfire": {
+      "id": "tag-fire",
+      "name": "fire",
+      "slug": "fire",
+      "type": "tag",
+      "aliases": [
+        "tag-fire"
+      ]
+    },
+    "aura": {
+      "id": "tag-aura",
+      "name": "aura",
+      "slug": "aura",
+      "type": "tag",
+      "aliases": [
+        "tag-aura"
+      ]
+    },
+    "tagaura": {
+      "id": "tag-aura",
+      "name": "aura",
+      "slug": "aura",
+      "type": "tag",
+      "aliases": [
+        "tag-aura"
+      ]
+    },
+    "chaos": {
+      "id": "tag-chaos",
+      "name": "chaos",
+      "slug": "chaos",
+      "type": "tag",
+      "aliases": [
+        "tag-chaos"
+      ]
+    },
+    "tagchaos": {
+      "id": "tag-chaos",
+      "name": "chaos",
+      "slug": "chaos",
+      "type": "tag",
+      "aliases": [
+        "tag-chaos"
+      ]
+    },
+    "duration": {
+      "id": "tag-duration",
+      "name": "duration",
+      "slug": "duration",
+      "type": "tag",
+      "aliases": [
+        "tag-duration"
+      ]
+    },
+    "tagduration": {
+      "id": "tag-duration",
+      "name": "duration",
+      "slug": "duration",
+      "type": "tag",
+      "aliases": [
+        "tag-duration"
+      ]
+    },
+    "support": {
+      "id": "tag-support",
+      "name": "support",
+      "slug": "support",
+      "type": "tag",
+      "aliases": [
+        "tag-support"
+      ]
+    },
+    "tagsupport": {
+      "id": "tag-support",
+      "name": "support",
+      "slug": "support",
+      "type": "tag",
+      "aliases": [
+        "tag-support"
+      ]
+    },
+    "crit": {
+      "id": "tag-crit",
+      "name": "crit",
+      "slug": "crit",
+      "type": "tag",
+      "aliases": [
+        "tag-crit"
+      ]
+    },
+    "tagcrit": {
+      "id": "tag-crit",
+      "name": "crit",
+      "slug": "crit",
+      "type": "tag",
+      "aliases": [
+        "tag-crit"
+      ]
+    },
+    "use essences for high life": {
+      "id": "rule-essence-life",
+      "name": "Use Essences for High Life",
+      "slug": "use essences for high life",
+      "type": "rule",
+      "aliases": [
+        "rule-essence-life"
+      ],
+      "tags": [
+        "life",
+        "armour",
+        "essence"
+      ]
+    },
+    "ruleessencelife": {
+      "id": "rule-essence-life",
+      "name": "Use Essences for High Life",
+      "slug": "use essences for high life",
+      "type": "rule",
+      "aliases": [
+        "rule-essence-life"
+      ],
+      "tags": [
+        "life",
+        "armour",
+        "essence"
+      ]
+    },
+    "aetheric fossils for spell damage": {
+      "id": "rule-aetheric-fossil",
+      "name": "Aetheric Fossils for Spell Damage",
+      "slug": "aetheric fossils for spell damage",
+      "type": "rule",
+      "aliases": [
+        "rule-aetheric-fossil"
+      ],
+      "tags": [
+        "caster",
+        "spell",
+        "fossil"
+      ]
+    },
+    "ruleaethericfossil": {
+      "id": "rule-aetheric-fossil",
+      "name": "Aetheric Fossils for Spell Damage",
+      "slug": "aetheric fossils for spell damage",
+      "type": "rule",
+      "aliases": [
+        "rule-aetheric-fossil"
+      ],
+      "tags": [
+        "caster",
+        "spell",
+        "fossil"
+      ]
+    },
+    "bench craft attack speed": {
+      "id": "rule-attack-speed-bench",
+      "name": "Bench Craft Attack Speed",
+      "slug": "bench craft attack speed",
+      "type": "rule",
+      "aliases": [
+        "rule-attack-speed-bench"
+      ],
+      "tags": [
+        "attack",
+        "speed",
+        "bench"
+      ]
+    },
+    "ruleattackspeedbench": {
+      "id": "rule-attack-speed-bench",
+      "name": "Bench Craft Attack Speed",
+      "slug": "bench craft attack speed",
+      "type": "rule",
+      "aliases": [
+        "rule-attack-speed-bench"
+      ],
+      "tags": [
+        "attack",
+        "speed",
+        "bench"
+      ]
+    },
+    "starter righteous fire": {
+      "id": "starter-righteous-fire",
+      "name": "Starter Righteous Fire",
+      "slug": "starter righteous fire",
+      "type": "pob-build",
+      "aliases": [
+        "starter-righteous-fire",
+        "Righteous Fire"
+      ],
+      "tags": [
+        "league-starter",
+        "fire",
+        "dot"
+      ]
+    },
+    "starterrighteousfire": {
+      "id": "starter-righteous-fire",
+      "name": "Starter Righteous Fire",
+      "slug": "starter righteous fire",
+      "type": "pob-build",
+      "aliases": [
+        "starter-righteous-fire",
+        "Righteous Fire"
+      ],
+      "tags": [
+        "league-starter",
+        "fire",
+        "dot"
+      ]
+    },
+    "essence drain trickster": {
+      "id": "essence-shotgun",
+      "name": "Essence Drain Trickster",
+      "slug": "essence drain trickster",
+      "type": "pob-build",
+      "aliases": [
+        "essence-shotgun",
+        "Essence Drain"
+      ],
+      "tags": [
+        "dot",
+        "trickster"
+      ]
+    },
+    "essenceshotgun": {
+      "id": "essence-shotgun",
+      "name": "Essence Drain Trickster",
+      "slug": "essence drain trickster",
+      "type": "pob-build",
+      "aliases": [
+        "essence-shotgun",
+        "Essence Drain"
+      ],
+      "tags": [
+        "dot",
+        "trickster"
+      ]
+    }
+  }
+}

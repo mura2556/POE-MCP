@@ -45,7 +45,7 @@ describe("MCP tool integration", () => {
     const planCraft = getRegisteredTool("plan_craft");
     const planResult = await planCraft.callback({
       base: "Saintly Chainmail",
-      mods: ["T1 Increased Maximum Life"]
+      mods: ["Fecund"]
     });
     expect(planResult.structuredContent.steps.length).toBeGreaterThan(0);
   });

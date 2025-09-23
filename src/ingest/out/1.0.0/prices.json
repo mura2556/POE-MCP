@@ -1,0 +1,131 @@
+{
+  "items": {
+    "currency-chaos-orb": {
+      "itemId": "currency-chaos-orb",
+      "name": "Chaos Orb",
+      "normalizedName": "chaos orb",
+      "category": "currency",
+      "chaosValue": 1,
+      "divineValue": 0.01,
+      "confidence": 0.98,
+      "sampleSize": 1200,
+      "listings": 900,
+      "sources": [
+        "poe.ninja"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.001Z"
+    },
+    "currency-divine-orb": {
+      "itemId": "currency-divine-orb",
+      "name": "Divine Orb",
+      "normalizedName": "divine orb",
+      "category": "currency",
+      "chaosValue": 190,
+      "divineValue": 1,
+      "confidence": 0.96,
+      "sampleSize": 1100,
+      "listings": 750,
+      "sources": [
+        "poe.ninja"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.002Z"
+    },
+    "currency-exalted-orb": {
+      "itemId": "currency-exalted-orb",
+      "name": "Exalted Orb",
+      "normalizedName": "exalted orb",
+      "category": "currency",
+      "chaosValue": 95,
+      "divineValue": 0.5,
+      "confidence": 0.92,
+      "sampleSize": 980,
+      "listings": 650,
+      "sources": [
+        "poe.ninja"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.002Z"
+    },
+    "fragment-maven-writ": {
+      "itemId": "fragment-maven-writ",
+      "name": "The Maven's Writ",
+      "normalizedName": "the mavens writ",
+      "category": "fragment",
+      "chaosValue": 125,
+      "divineValue": 0.66,
+      "confidence": 0.88,
+      "sampleSize": 450,
+      "listings": 260,
+      "sources": [
+        "poe.ninja"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.002Z"
+    },
+    "lifeforce-vivid": {
+      "itemId": "lifeforce-vivid",
+      "name": "Vivid Lifeforce",
+      "normalizedName": "vivid lifeforce",
+      "category": "craft",
+      "chaosValue": 2.6,
+      "divineValue": 0.01,
+      "confidence": 0.83,
+      "sampleSize": 320,
+      "listings": 180,
+      "sources": [
+        "poe.ninja",
+        "bulk"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.002Z"
+    },
+    "fossil-aetheric": {
+      "itemId": "fossil-aetheric",
+      "name": "Aetheric Fossil",
+      "normalizedName": "aetheric fossil",
+      "category": "fossil",
+      "chaosValue": 15,
+      "divineValue": 0.08,
+      "confidence": 0.81,
+      "sampleSize": 280,
+      "listings": 200,
+      "sources": [
+        "poe.ninja"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.002Z"
+    }
+  },
+  "tables": {
+    "currency": {
+      "id": "currency",
+      "title": "Currency Overview",
+      "category": "currency",
+      "description": "Exchange rates for core league currency items.",
+      "entries": [
+        "currency-chaos-orb",
+        "currency-divine-orb",
+        "currency-exalted-orb"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.002Z"
+    },
+    "fragment": {
+      "id": "fragment",
+      "title": "Fragments",
+      "category": "fragment",
+      "description": "Boss fragments and invitations.",
+      "entries": [
+        "fragment-maven-writ"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.002Z"
+    },
+    "crafting": {
+      "id": "crafting",
+      "title": "Crafting Components",
+      "category": "craft",
+      "description": "Bulk crafting resources and fossils.",
+      "entries": [
+        "lifeforce-vivid",
+        "fossil-aetheric"
+      ],
+      "lastUpdated": "2025-09-21T23:24:39.002Z"
+    }
+  },
+  "divineChaosRate": 190
+}

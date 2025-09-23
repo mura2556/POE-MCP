@@ -1,0 +1,156 @@
+{
+  "tag-armour": {
+    "id": "tag-armour",
+    "label": "Armour",
+    "category": "item",
+    "description": "Armour-based equipment",
+    "synonyms": [
+      "armor"
+    ]
+  },
+  "tag-life": {
+    "id": "tag-life",
+    "label": "Life",
+    "category": "mod",
+    "description": "Life modifiers",
+    "synonyms": []
+  },
+  "tag-resistance": {
+    "id": "tag-resistance",
+    "label": "Resistance",
+    "category": "mod",
+    "description": "Elemental resistance modifiers",
+    "synonyms": [
+      "res"
+    ]
+  },
+  "tag-caster": {
+    "id": "tag-caster",
+    "label": "Caster",
+    "category": "mod",
+    "description": "Caster-related modifiers",
+    "synonyms": []
+  },
+  "tag-weapon": {
+    "id": "tag-weapon",
+    "label": "Weapon",
+    "category": "item",
+    "description": "Weapons",
+    "synonyms": []
+  },
+  "tag-str-int": {
+    "id": "tag-str-int",
+    "label": "str/int",
+    "category": "item"
+  },
+  "tag-body-armour": {
+    "id": "tag-body-armour",
+    "label": "body_armour",
+    "category": "item"
+  },
+  "tag-str": {
+    "id": "tag-str",
+    "label": "str",
+    "category": "item"
+  },
+  "tag-gloves": {
+    "id": "tag-gloves",
+    "label": "gloves",
+    "category": "item"
+  },
+  "tag-jewellery": {
+    "id": "tag-jewellery",
+    "label": "jewellery",
+    "category": "item"
+  },
+  "tag-int": {
+    "id": "tag-int",
+    "label": "int",
+    "category": "item"
+  },
+  "tag-dex": {
+    "id": "tag-dex",
+    "label": "dex",
+    "category": "item"
+  },
+  "tag-ring": {
+    "id": "tag-ring",
+    "label": "ring",
+    "category": "item"
+  },
+  "tag-wand": {
+    "id": "tag-wand",
+    "label": "wand",
+    "category": "item"
+  },
+  "tag-helmet": {
+    "id": "tag-helmet",
+    "label": "helmet",
+    "category": "item"
+  },
+  "tag-defence": {
+    "id": "tag-defence",
+    "label": "defence",
+    "category": "mod"
+  },
+  "tag-shield": {
+    "id": "tag-shield",
+    "label": "shield",
+    "category": "item"
+  },
+  "tag-attack": {
+    "id": "tag-attack",
+    "label": "attack",
+    "category": "mod"
+  },
+  "tag-speed": {
+    "id": "tag-speed",
+    "label": "speed",
+    "category": "mod"
+  },
+  "tag-bow": {
+    "id": "tag-bow",
+    "label": "bow",
+    "category": "item"
+  },
+  "tag-spell": {
+    "id": "tag-spell",
+    "label": "spell",
+    "category": "mod"
+  },
+  "tag-staff": {
+    "id": "tag-staff",
+    "label": "staff",
+    "category": "item"
+  },
+  "tag-fire": {
+    "id": "tag-fire",
+    "label": "fire",
+    "category": "gem"
+  },
+  "tag-aura": {
+    "id": "tag-aura",
+    "label": "aura",
+    "category": "gem"
+  },
+  "tag-chaos": {
+    "id": "tag-chaos",
+    "label": "chaos",
+    "category": "gem"
+  },
+  "tag-duration": {
+    "id": "tag-duration",
+    "label": "duration",
+    "category": "gem"
+  },
+  "tag-support": {
+    "id": "tag-support",
+    "label": "support",
+    "category": "gem"
+  },
+  "tag-crit": {
+    "id": "tag-crit",
+    "label": "crit",
+    "category": "gem"
+  }
+}

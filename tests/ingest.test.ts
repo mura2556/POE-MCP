@@ -15,11 +15,16 @@ describe("runIngestionPipeline", () => {
     });
 
     const stats = await fs.stat(result.filePath);
-    expect(stats.isFile()).toBe(true);
+    expect(stats.isDirectory()).toBe(true);
     expect(result.snapshot.items.length).toBeGreaterThan(0);
+    expect(result.snapshot.nameIndex.entries.length).toBeGreaterThan(0);
 
-    const latest = await fs.readFile(path.join(tempDir, "latest.json"), "utf-8");
-    const parsed = JSON.parse(latest);
-    expect(parsed.metadata.repoeItems).toBeGreaterThan(0);
+    const latestPointer = await fs.readFile(path.join(tempDir, "latest.json"), "utf-8");
+    const pointer = JSON.parse(latestPointer) as { id: string };
+    expect(pointer.id).toBe(path.basename(result.filePath));
+
+    const index = await fs.readFile(path.join(result.filePath, "index.json"), "utf-8");
+    const parsedIndex = JSON.parse(index) as { metadata: { priceTableCount: number } };
+    expect(parsedIndex.metadata.priceTableCount).toBeGreaterThan(0);
   });
 });

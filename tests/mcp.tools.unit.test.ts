@@ -70,20 +70,20 @@ describe("registerAllTools", () => {
     const result = await tool.callback({ query: "life" });
     const info = dataContext.getSnapshotInfo();
     expect(result.structuredContent.snapshotVersion).toBe(info.version);
-    expect(result.structuredContent.mods[0].id).toBe("mod-t1-life");
+    expect(result.structuredContent.mods[0].id).toBe("mod-prefix-life-t1");
   });
 
   it("can_roll validates base and mod combinations and reports errors", async () => {
     const tool = getTool("can_roll");
     const positive = await tool.callback({
       base: "Saintly Chainmail",
-      mod: "T1 Increased Maximum Life"
+      mod: "Fecund"
     });
     expect(positive.structuredContent.canRoll).toBe(true);
 
     const negative = await tool.callback({
       base: "Saintly Chainmail",
-      mod: "Spell Damage"
+      mod: "Flaring"
     });
     expect(negative.structuredContent.canRoll).toBe(false);
     expect(negative.structuredContent.reasons.length).toBeGreaterThan(0);
@@ -99,9 +99,7 @@ describe("registerAllTools", () => {
   it("search_bases finds matching bases", async () => {
     const tool = getTool("search_bases");
     const result = await tool.callback({ query: "ring" });
-    expect(result.structuredContent.bases.some((base: any) => base.id === "base-opal-ring")).toBe(
-      true
-    );
+    expect(result.structuredContent.bases.some((base: any) => base.name === "Opal Ring")).toBe(true);
   });
 
   it("search_gems respects filters", async () => {
@@ -130,7 +128,7 @@ describe("registerAllTools", () => {
     const planTool = getTool("plan_craft");
     const planResult = await planTool.callback({
       base: "Saintly Chainmail",
-      mods: ["T1 Increased Maximum Life", "T2 All Elemental Resistances"]
+      mods: ["Fecund", "of the Order"]
     });
 
     const planId = planResult.structuredContent.planId as string;

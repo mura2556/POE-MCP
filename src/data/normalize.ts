@@ -1,5 +1,6 @@
 const whitespaceRegex = /\s+/g;
 const punctuationRegex = /[^a-z0-9\s]/g;
+const slugRegex = /[^a-z0-9]+/g;
 
 export const normalizeItemName = (name: string): string =>
   name
@@ -8,12 +9,18 @@ export const normalizeItemName = (name: string): string =>
     .replace(whitespaceRegex, " ")
     .trim();
 
-export const normalizeCategory = (category: string): string =>
-  category
+export const createNameSlug = (value: string): string =>
+  value
     .toLowerCase()
-    .replace(whitespaceRegex, "-")
-    .replace(/[^a-z0-9-]/g, "")
-    .trim();
+    .replace(/'/g, "")
+    .replace(slugRegex, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+export const normalizeTag = (tag: string): string => createNameSlug(tag);
+
+export const normalizeCategory = (category: string): string =>
+  createNameSlug(category);
 
 export const roundChaosValue = (value: number): number =>
   Math.round(value * 100) / 100;

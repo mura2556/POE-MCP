@@ -1,0 +1,36 @@
+{
+  "starter-righteous-fire": {
+    "id": "starter-righteous-fire",
+    "name": "Starter Righteous Fire",
+    "characterClass": "Templar",
+    "mainSkill": "Righteous Fire",
+    "dps": 850000,
+    "poeVersion": "3.25",
+    "items": [
+      "Divine Orb",
+      "Chaos Orb",
+      "Lifeforce"
+    ],
+    "tags": [
+      "league-starter",
+      "fire",
+      "dot"
+    ]
+  },
+  "essence-shotgun": {
+    "id": "essence-shotgun",
+    "name": "Essence Drain Trickster",
+    "characterClass": "Shadow",
+    "mainSkill": "Essence Drain",
+    "dps": 450000,
+    "poeVersion": "3.25",
+    "items": [
+      "Divine Orb",
+      "Exalted Orb"
+    ],
+    "tags": [
+      "dot",
+      "trickster"
+    ]
+  }
+}

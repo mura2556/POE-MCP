@@ -1,0 +1,87 @@
+{
+  "Metadata/Items/Armours/BodyArmours/BodyStrInt5": {
+    "id": "Metadata/Items/Armours/BodyArmours/BodyStrInt5",
+    "name": "Saintly Chainmail",
+    "itemClass": "Body Armour",
+    "requiredLevel": 82,
+    "tags": [
+      "armour",
+      "str/int",
+      "body_armour"
+    ],
+    "implicitMods": [
+      "+12% to all Elemental Resistances"
+    ],
+    "influences": [
+      "shaper"
+    ],
+    "variant": "Default"
+  },
+  "Metadata/Items/Armours/Gloves/GlovesStr6": {
+    "id": "Metadata/Items/Armours/Gloves/GlovesStr6",
+    "name": "Titan Gauntlets",
+    "itemClass": "Gloves",
+    "requiredLevel": 68,
+    "tags": [
+      "armour",
+      "str",
+      "gloves"
+    ],
+    "implicitMods": [],
+    "influences": [],
+    "variant": "Default"
+  },
+  "Metadata/Items/Rings/RingDexInt11": {
+    "id": "Metadata/Items/Rings/RingDexInt11",
+    "name": "Opal Ring",
+    "itemClass": "Ring",
+    "requiredLevel": 80,
+    "tags": [
+      "jewellery",
+      "int",
+      "dex",
+      "ring"
+    ],
+    "implicitMods": [
+      "15% increased Elemental Damage"
+    ],
+    "influences": [
+      "elder"
+    ],
+    "variant": "Default"
+  },
+  "Metadata/Items/Wands/WandInt7": {
+    "id": "Metadata/Items/Wands/WandInt7",
+    "name": "Imbued Wand",
+    "itemClass": "Wand",
+    "requiredLevel": 59,
+    "tags": [
+      "weapon",
+      "wand",
+      "int"
+    ],
+    "implicitMods": [
+      "10% increased Spell Damage"
+    ],
+    "influences": [],
+    "variant": "Default"
+  },
+  "Metadata/Items/Armours/Helmets/HelmetStrDex5": {
+    "id": "Metadata/Items/Armours/Helmets/HelmetStrDex5",
+    "name": "Royal Burgonet",
+    "itemClass": "Helmet",
+    "requiredLevel": 65,
+    "tags": [
+      "armour",
+      "str",
+      "helmet"
+    ],
+    "implicitMods": [
+      "Adds 10 to 15 Physical Damage to Attacks"
+    ],
+    "influences": [
+      "warlord"
+    ],
+    "variant": "Default"
+  }
+}

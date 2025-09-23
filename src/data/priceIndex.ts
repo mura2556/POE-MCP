@@ -4,9 +4,16 @@ import type { ItemPrice, Snapshot } from "./types.js";
 export class PriceIndex {
   private readonly itemsByNormalizedName: Map<string, ItemPrice> = new Map();
   private readonly itemsById: Map<string, ItemPrice> = new Map();
+  private readonly items: ItemPrice[];
 
   constructor(private readonly snapshot: Snapshot) {
-    for (const item of snapshot.items) {
+    const items = snapshot.items.length > 0
+      ? snapshot.items
+      : Object.values(snapshot.prices.items);
+
+    this.items = items;
+
+    for (const item of items) {
       this.itemsByNormalizedName.set(item.normalizedName, item);
       this.itemsById.set(item.itemId, item);
     }
@@ -25,7 +32,7 @@ export class PriceIndex {
   }
 
   list(): ItemPrice[] {
-    return [...this.snapshot.items];
+    return [...this.items];
   }
 
   getById(itemId: string): ItemPrice | undefined {
@@ -38,6 +45,10 @@ export class PriceIndex {
   }
 
   getSuggestedDivineRate(): number {
+    if (this.snapshot.prices.divineChaosRate > 0) {
+      return this.snapshot.prices.divineChaosRate;
+    }
+
     const chaos = this.getByName("chaos orb");
     const divine = this.getByName("divine orb");
     if (!chaos || !divine || divine.chaosValue === 0) {

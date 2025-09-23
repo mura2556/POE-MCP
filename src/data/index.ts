@@ -3,25 +3,33 @@ import { randomUUID } from "node:crypto";
 import type { Logger } from "../logging/index.js";
 import {
   chaosToDivine,
+  createNameSlug,
   normalizeItemName,
+  normalizeTag,
   roundChaosValue,
   scoreSearchMatch
 } from "./normalize.js";
 import { loadDefaultBuilds, parsePobBuild, type PobBuild } from "./pob.js";
 import { createPriceIndex, PriceIndex } from "./priceIndex.js";
 import { createSnapshotStore } from "./snapshots.js";
+import { matchRulesForCraft, normalizeRuleSet, type RuleMatch } from "./rules.js";
 import type {
   BaseItemDefinition,
   CraftCost,
   CraftPlan,
   CraftStepDefinition,
+  CraftingRuleSet,
   GemDefinition,
   ItemPrice,
   ModDefinition,
+  NameIndex,
+  NameIndexEntry,
+  PobBuildSummary,
   Snapshot,
   SnapshotMetadata,
   SnapshotStore,
-  SnapshotSummary
+  SnapshotSummary,
+  TagDefinition
 } from "./types.js";
 
 export interface DataContextOptions {
@@ -42,139 +50,126 @@ interface SnapshotInfo {
   league: string;
 }
 
-const DEFAULT_MODS: ModDefinition[] = [
-  {
-    id: "mod-t1-life",
-    name: "T1 Increased Maximum Life",
-    tier: "T1",
-    generationType: "prefix",
-    description: "+120-129 to maximum Life",
-    tags: ["life", "defence", "prefix"],
-    applicableTags: ["armour", "str", "str/int"],
-    minimumItemLevel: 72
-  },
-  {
-    id: "mod-all-res",
-    name: "T2 All Elemental Resistances",
-    tier: "T2",
-    generationType: "suffix",
-    description: "+38-42% to all Elemental Resistances",
-    tags: ["resistance", "suffix", "defence"],
-    applicableTags: ["armour", "jewellery", "shield"],
-    minimumItemLevel: 68
-  },
-  {
-    id: "mod-attack-speed",
-    name: "Attack Speed",
-    tier: "T3",
-    generationType: "suffix",
-    description: "+13-16% increased Attack Speed",
-    tags: ["speed", "attack", "suffix"],
-    applicableTags: ["weapon", "dex", "bow"],
-    minimumItemLevel: 60
-  },
-  {
-    id: "mod-spell-damage",
-    name: "Spell Damage",
-    tier: "T1",
-    generationType: "prefix",
-    description: "+70-74% increased Spell Damage",
-    tags: ["spell", "caster", "prefix"],
-    applicableTags: ["wand", "staff", "int"],
-    minimumItemLevel: 72
-  }
-];
-
-const DEFAULT_BASES: BaseItemDefinition[] = [
-  {
-    id: "base-saintly-chainmail",
-    name: "Saintly Chainmail",
-    itemClass: "Body Armour",
-    requiredLevel: 72,
-    tags: ["armour", "str/int"],
-    implicitMods: ["+12% to all Elemental Resistances"]
-  },
-  {
-    id: "base-titan-gauntlets",
-    name: "Titan Gauntlets",
-    itemClass: "Gloves",
-    requiredLevel: 69,
-    tags: ["armour", "str"],
-    implicitMods: []
-  },
-  {
-    id: "base-opal-ring",
-    name: "Opal Ring",
-    itemClass: "Ring",
-    requiredLevel: 80,
-    tags: ["jewellery", "int", "dex"],
-    implicitMods: ["15% increased Elemental Damage"]
-  },
-  {
-    id: "base-imbued-wand",
-    name: "Imbued Wand",
-    itemClass: "Wand",
-    requiredLevel: 64,
-    tags: ["weapon", "wand", "int"],
-    implicitMods: ["10% increased Spell Damage"]
-  }
-];
-
-const DEFAULT_GEMS: GemDefinition[] = [
-  {
-    id: "gem-righteous-fire",
-    name: "Righteous Fire",
-    primaryAttribute: "Strength",
-    tags: ["fire", "spell", "aura"],
-    description: "Burn enemies around you while burning yourself."
-  },
-  {
-    id: "gem-essence-drain",
-    name: "Essence Drain",
-    primaryAttribute: "Intelligence",
-    tags: ["chaos", "spell", "duration"],
-    description: "Fires a projectile that applies a damaging chaos over time effect."
-  },
-  {
-    id: "gem-tornado-shot",
-    name: "Tornado Shot",
-    primaryAttribute: "Dexterity",
-    tags: ["attack", "bow", "projectile"],
-    description: "Fire a shot that releases secondary projectiles in all directions."
-  },
-  {
-    id: "gem-determination",
-    name: "Determination",
-    primaryAttribute: "Universal",
-    tags: ["aura", "armour", "defence"],
-    description: "Casts an aura that grants armour to you and your allies."
-  }
-];
-
-const DEFAULT_MOD_COST: Record<string, number> = {
-  "mod-t1-life": 120,
-  "mod-all-res": 40,
-  "mod-attack-speed": 55,
-  "mod-spell-damage": 75
+const BASE_COST_FALLBACK = 25;
+const MOD_COST_BASE = 45;
+const TIER_MULTIPLIERS: Record<string, number> = {
+  t0: 1.75,
+  t1: 1.5,
+  t2: 1.25,
+  t3: 1.1
+};
+const TAG_COST_HINTS: Record<string, number> = {
+  life: 120,
+  resistance: 50,
+  chaos: 60,
+  spell: 55,
+  caster: 55,
+  attack: 50,
+  speed: 65,
+  armour: 35,
+  evasion: 35,
+  aura: 40
 };
 
-const DEFAULT_BASE_COST: Record<string, number> = {
-  "base-saintly-chainmail": 45,
-  "base-titan-gauntlets": 12,
-  "base-opal-ring": 35,
-  "base-imbued-wand": 18
+const normalizeEntries = <T extends { id: string }>(entries: Record<string, T>) =>
+  new Map<string, T>(Object.entries(entries));
+
+const buildNameLookup = <T extends { id: string; name: string }>(entries: Iterable<T>) => {
+  const map = new Map<string, T>();
+  for (const entry of entries) {
+    map.set(normalizeItemName(entry.id), entry);
+    map.set(normalizeItemName(entry.name), entry);
+  }
+  return map;
+};
+
+const applyNameIndexAliases = <T extends { id: string }>(
+  type: NameIndexEntry["type"],
+  index: NameIndex | null,
+  map: Map<string, T>,
+  resolve: (id: string) => T | undefined
+) => {
+  if (!index) {
+    return;
+  }
+
+  const lookup = index.bySlug;
+  for (const entry of index.entries) {
+    if (entry.type !== type) {
+      continue;
+    }
+
+    const target = resolve(entry.id);
+    if (!target) {
+      continue;
+    }
+
+    map.set(normalizeItemName(entry.slug), target);
+    if (entry.aliases) {
+      for (const alias of entry.aliases) {
+        map.set(normalizeItemName(alias), target);
+      }
+    }
+  }
+
+  for (const [slug, nameEntry] of Object.entries(lookup)) {
+    if (nameEntry.type !== type) {
+      continue;
+    }
+
+    const target = resolve(nameEntry.id);
+    if (target) {
+      map.set(slug, target);
+    }
+  }
+};
+
+const estimateModChaosCost = (mod: ModDefinition): number => {
+  let chaos = MOD_COST_BASE;
+  const tierKey = mod.tier.toLowerCase();
+  for (const [prefix, multiplier] of Object.entries(TIER_MULTIPLIERS)) {
+    if (tierKey.startsWith(prefix)) {
+      chaos *= multiplier;
+      break;
+    }
+  }
+
+  for (const tag of mod.tags) {
+    const normalized = normalizeTag(tag);
+    const hinted = TAG_COST_HINTS[normalized];
+    if (hinted) {
+      chaos = Math.max(chaos, hinted);
+    }
+  }
+
+  return roundChaosValue(Math.max(chaos, MOD_COST_BASE));
+};
+
+const collectRuleNotes = (matches: RuleMatch[]): string[] => {
+  const notes = new Set<string>();
+  for (const match of matches) {
+    match.rule.outcomes.forEach((outcome) => notes.add(outcome));
+  }
+  return [...notes];
 };
 
 export class DataContext {
   private readonly store: SnapshotStore;
   private priceIndex: PriceIndex | null = null;
   private snapshotInfo: SnapshotInfo | null = null;
-  private readonly mods: ModDefinition[] = [...DEFAULT_MODS];
-  private readonly bases: BaseItemDefinition[] = [...DEFAULT_BASES];
-  private readonly gems: GemDefinition[] = [...DEFAULT_GEMS];
+  private snapshot: Snapshot | null = null;
+  private metadata: SnapshotMetadata | null = null;
+  private modsById = new Map<string, ModDefinition>();
+  private basesById = new Map<string, BaseItemDefinition>();
+  private gemsById = new Map<string, GemDefinition>();
+  private tagsById = new Map<string, TagDefinition>();
+  private modNameLookup = new Map<string, ModDefinition>();
+  private baseNameLookup = new Map<string, BaseItemDefinition>();
+  private gemNameLookup = new Map<string, GemDefinition>();
+  private nameIndex: NameIndex | null = null;
+  private ruleSet: CraftingRuleSet = { rules: {}, byTag: {} };
   private readonly craftPlans = new Map<string, CraftPlan>();
-  private readonly pobBuilds = new Map<string, PobBuild>();
-  private bootstrapped = false;
+  private readonly pobBuilds = new Map<string, PobBuildSummary>();
 
   constructor(private readonly options: DataContextOptions) {
     this.store = createSnapshotStore(options.snapshotDir, options.logger);
@@ -184,43 +179,80 @@ export class DataContext {
     return this.store;
   }
 
-  async ensureReady(): Promise<void> {
-    await this.store.ensureReady();
-    await this.ensurePriceIndex();
-    this.bootstrapStaticData();
-  }
-
-  private bootstrapStaticData(): void {
-    if (this.bootstrapped) {
-      return;
-    }
-
-    for (const build of loadDefaultBuilds()) {
-      if (!this.pobBuilds.has(build.id)) {
-        this.pobBuilds.set(build.id, build);
-      }
-    }
-
-    this.bootstrapped = true;
-  }
-
-  private updateSnapshotInfo(snapshot: Snapshot): void {
+  private applySnapshot(snapshot: Snapshot): void {
+    this.snapshot = snapshot;
+    this.metadata = snapshot.metadata;
+    this.priceIndex = createPriceIndex(snapshot);
     this.snapshotInfo = {
       version: snapshot.version,
       createdAt: snapshot.createdAt,
       league: snapshot.metadata.league
     };
+
+    this.modsById = normalizeEntries(snapshot.mods);
+    this.basesById = normalizeEntries(snapshot.bases);
+    this.gemsById = normalizeEntries(snapshot.gems);
+    this.tagsById = normalizeEntries(snapshot.tags);
+    this.nameIndex = snapshot.nameIndex;
+    this.ruleSet = normalizeRuleSet(snapshot.rules);
+
+    this.modNameLookup = buildNameLookup(this.modsById.values());
+    this.baseNameLookup = buildNameLookup(this.basesById.values());
+    this.gemNameLookup = buildNameLookup(this.gemsById.values());
+
+    applyNameIndexAliases(
+      "mod",
+      this.nameIndex,
+      this.modNameLookup,
+      (id) => this.modsById.get(id)
+    );
+    applyNameIndexAliases(
+      "base",
+      this.nameIndex,
+      this.baseNameLookup,
+      (id) => this.basesById.get(id)
+    );
+    applyNameIndexAliases(
+      "gem",
+      this.nameIndex,
+      this.gemNameLookup,
+      (id) => this.gemsById.get(id)
+    );
+
+    this.pobBuilds.clear();
+    for (const [id, build] of Object.entries(snapshot.pob.builds)) {
+      this.pobBuilds.set(id, build);
+    }
+    for (const build of loadDefaultBuilds()) {
+      if (!this.pobBuilds.has(build.id)) {
+        this.pobBuilds.set(build.id, build);
+      }
+    }
   }
 
-  private async ensurePriceIndex(): Promise<void> {
-    if (this.priceIndex) {
-      return;
+  private async ensureSnapshot(): Promise<Snapshot> {
+    if (this.snapshot) {
+      return this.snapshot;
     }
 
     const snapshot = await this.store.loadLatestSnapshot();
-    this.priceIndex = createPriceIndex(snapshot);
-    this.updateSnapshotInfo(snapshot);
+    this.applySnapshot(snapshot);
+    return snapshot;
   }
+
+  async ensureReady(): Promise<void> {
+    await this.store.ensureReady();
+    await this.ensureSnapshot();
+  }
+
+  private async ensurePriceIndex(): Promise<void> {
+    await this.ensureSnapshot();
+  }
+
+  private updateSnapshotFromLatest = async (): Promise<void> => {
+    const snapshot = await this.store.loadLatestSnapshot();
+    this.applySnapshot(snapshot);
+  };
 
   async getPriceIndex(): Promise<PriceIndex> {
     await this.ensurePriceIndex();
@@ -232,9 +264,11 @@ export class DataContext {
   }
 
   async refreshPriceIndex(): Promise<PriceIndex> {
-    const snapshot = await this.store.loadLatestSnapshot();
-    this.priceIndex = createPriceIndex(snapshot);
-    this.updateSnapshotInfo(snapshot);
+    await this.updateSnapshotFromLatest();
+    if (!this.priceIndex) {
+      throw new Error("Price index not initialized");
+    }
+
     return this.priceIndex;
   }
 
@@ -243,7 +277,7 @@ export class DataContext {
   }
 
   async getLatestSnapshot(): Promise<Snapshot> {
-    return this.store.loadLatestSnapshot();
+    return this.ensureSnapshot();
   }
 
   getSnapshotInfo(): SnapshotInfo {
@@ -254,55 +288,66 @@ export class DataContext {
     return this.snapshotInfo;
   }
 
-  private resolveMod(identifier: string): ModDefinition {
-    const normalized = normalizeItemName(identifier);
-    const mod = this.mods.find(
-      (entry) =>
-        entry.id === identifier || normalizeItemName(entry.name) === normalized
-    );
-
-    if (!mod) {
-      throw new DataContextError(
-        `Mod "${identifier}" was not found`,
-        "Use search_mods to discover supported modifier names."
-      );
+  getSnapshotMetadata(): SnapshotMetadata {
+    if (!this.metadata) {
+      throw new Error("Snapshot metadata is not available yet");
     }
 
-    return mod;
+    return this.metadata;
+  }
+
+  private resolveMod(identifier: string): ModDefinition {
+    const normalized = normalizeItemName(identifier);
+    const direct = this.modsById.get(identifier) ?? this.modsById.get(normalized);
+    if (direct) {
+      return direct;
+    }
+
+    const byName = this.modNameLookup.get(normalized);
+    if (byName) {
+      return byName;
+    }
+
+    throw new DataContextError(
+      `Mod "${identifier}" was not found`,
+      "Use search_mods to discover supported modifier names."
+    );
   }
 
   private resolveBase(identifier: string): BaseItemDefinition {
     const normalized = normalizeItemName(identifier);
-    const base = this.bases.find(
-      (entry) =>
-        entry.id === identifier || normalizeItemName(entry.name) === normalized
-    );
-
-    if (!base) {
-      throw new DataContextError(
-        `Base item "${identifier}" was not found`,
-        "Use search_bases to find valid base names."
-      );
+    const direct = this.basesById.get(identifier) ?? this.basesById.get(normalized);
+    if (direct) {
+      return direct;
     }
 
-    return base;
+    const byName = this.baseNameLookup.get(normalized);
+    if (byName) {
+      return byName;
+    }
+
+    throw new DataContextError(
+      `Base item "${identifier}" was not found`,
+      "Use search_bases to find valid base names."
+    );
   }
 
   private resolveGem(identifier: string): GemDefinition {
     const normalized = normalizeItemName(identifier);
-    const gem = this.gems.find(
-      (entry) =>
-        entry.id === identifier || normalizeItemName(entry.name) === normalized
-    );
-
-    if (!gem) {
-      throw new DataContextError(
-        `Gem "${identifier}" was not found`,
-        "Use search_gems to explore available skills."
-      );
+    const direct = this.gemsById.get(identifier) ?? this.gemsById.get(normalized);
+    if (direct) {
+      return direct;
     }
 
-    return gem;
+    const byName = this.gemNameLookup.get(normalized);
+    if (byName) {
+      return byName;
+    }
+
+    throw new DataContextError(
+      `Gem "${identifier}" was not found`,
+      "Use search_gems to explore available skills."
+    );
   }
 
   private generateCraftStepId(planId: string, index: number): string {
@@ -310,13 +355,34 @@ export class DataContext {
   }
 
   private estimateBaseCost(base: BaseItemDefinition): CraftCost[] {
-    const chaos = DEFAULT_BASE_COST[base.id] ?? 10;
-    return [{ currency: "chaos", amount: chaos }];
+    if (this.priceIndex) {
+      const price = this.priceIndex.getByName(base.name) ?? this.priceIndex.getByName(base.id);
+      if (price) {
+        return [
+          {
+            currency: "chaos",
+            amount: roundChaosValue(price.chaosValue)
+          }
+        ];
+      }
+    }
+
+    return [
+      {
+        currency: "chaos",
+        amount: BASE_COST_FALLBACK
+      }
+    ];
   }
 
   private estimateModCost(mod: ModDefinition): CraftCost[] {
-    const chaos = DEFAULT_MOD_COST[mod.id] ?? 50;
-    return [{ currency: "chaos", amount: chaos }];
+    const chaos = estimateModChaosCost(mod);
+    return [
+      {
+        currency: "chaos",
+        amount: chaos
+      }
+    ];
   }
 
   private static calculateCostTotal(cost: CraftCost[] | undefined): number {
@@ -329,11 +395,40 @@ export class DataContext {
       .reduce((total, entry) => total + entry.amount, 0);
   }
 
+  getMods(): ModDefinition[] {
+    return [...this.modsById.values()];
+  }
+
+  getBases(): BaseItemDefinition[] {
+    return [...this.basesById.values()];
+  }
+
+  getGems(): GemDefinition[] {
+    return [...this.gemsById.values()];
+  }
+
+  getTags(): TagDefinition[] {
+    return [...this.tagsById.values()];
+  }
+
+  getNameIndex(): NameIndex {
+    if (!this.nameIndex) {
+      throw new Error("Name index not available");
+    }
+    return this.nameIndex;
+  }
+
+  lookupName(slug: string): NameIndexEntry | undefined {
+    const normalized = normalizeItemName(slug);
+    const index = this.getNameIndex();
+    return index.bySlug[normalized] ?? index.entries.find((entry) => entry.slug === normalized);
+  }
+
   searchMods(query: string, options: { limit?: number; tag?: string } = {}): ModDefinition[] {
     const normalizedQuery = normalizeItemName(query);
     const { limit = 5, tag } = options;
 
-    const candidates = this.mods.filter((mod) => {
+    const candidates = this.getMods().filter((mod) => {
       if (tag && !mod.tags.includes(tag) && !mod.applicableTags.includes(tag)) {
         return false;
       }
@@ -397,7 +492,7 @@ export class DataContext {
     const normalizedQuery = normalizeItemName(query);
     const { limit = 5, tag } = options;
 
-    const filtered = this.bases.filter((base) => {
+    const filtered = this.getBases().filter((base) => {
       if (tag && !base.tags.includes(tag)) {
         return false;
       }
@@ -433,7 +528,7 @@ export class DataContext {
     const normalizedQuery = normalizeItemName(query);
     const { limit = 5, primaryAttribute, tag } = options;
 
-    const filtered = this.gems.filter((gem) => {
+    const filtered = this.getGems().filter((gem) => {
       if (primaryAttribute && gem.primaryAttribute !== primaryAttribute) {
         return false;
       }
@@ -503,7 +598,7 @@ export class DataContext {
     };
   }
 
-  private ensurePobBuild(id: string): PobBuild {
+  private ensurePobBuild(id: string): PobBuildSummary {
     const build = this.pobBuilds.get(id);
     if (!build) {
       throw new DataContextError(
@@ -518,25 +613,37 @@ export class DataContext {
   importPobBuild(input: string | PobBuild, explicitId?: string) {
     const parsed = parsePobBuild(input);
     const resolvedId = this.generateBuildId(explicitId ?? parsed.id);
-    const build: PobBuild = { ...parsed, id: resolvedId };
+    const build: PobBuildSummary = { ...parsed, id: resolvedId };
     this.pobBuilds.set(resolvedId, build);
-
     return build;
   }
 
-  private generateBuildId(candidate?: string): string {
-    if (!candidate) {
-      return randomUUID();
-    }
-
-    if (!this.pobBuilds.has(candidate)) {
-      return candidate;
-    }
-
-    return `${candidate}-${randomUUID().slice(0, 8)}`;
+  listPobBuilds(): PobBuildSummary[] {
+    return [...this.pobBuilds.values()].sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  diffPobBuilds(leftId: string, rightId: string) {
+  getPobBuild(id: string): PobBuildSummary {
+    return this.ensurePobBuild(id);
+  }
+
+  deletePobBuild(id: string): void {
+    if (!this.pobBuilds.delete(id)) {
+      throw new DataContextError(`Build "${id}" not found`);
+    }
+  }
+
+  private generateBuildId(baseId: string): string {
+    const normalized = createNameSlug(baseId);
+    let counter = 1;
+    let id = normalized;
+    while (this.pobBuilds.has(id)) {
+      id = `${normalized}-${counter}`;
+      counter += 1;
+    }
+    return id;
+  }
+
+  compareBuilds(leftId: string, rightId: string) {
     const left = this.ensurePobBuild(leftId);
     const right = this.ensurePobBuild(rightId);
 
@@ -555,6 +662,16 @@ export class DataContext {
         removedItems
       }
     };
+  }
+
+  diffPobBuilds(leftId: string, rightId: string) {
+    return this.compareBuilds(leftId, rightId);
+  }
+
+  findCraftingRules(baseIdentifier: string, modIdentifiers: string[]): RuleMatch[] {
+    const base = this.resolveBase(baseIdentifier);
+    const mods = modIdentifiers.map((id) => this.resolveMod(id));
+    return matchRulesForCraft(this.ruleSet, base, mods);
   }
 
   async planCraft(baseIdentifier: string, modIdentifiers: string[]): Promise<CraftPlan> {
@@ -594,6 +711,19 @@ export class DataContext {
       stepCounter += 1;
     }
 
+    const ruleMatches = matchRulesForCraft(this.ruleSet, base, mods).slice(0, 3);
+    for (const match of ruleMatches) {
+      const stepId = this.generateCraftStepId(planId, stepCounter);
+      steps.push({
+        id: stepId,
+        title: `Apply rule: ${match.rule.title}`,
+        description: match.rule.description,
+        requires: [baseStepId],
+        relatedRuleIds: [match.rule.id]
+      });
+      stepCounter += 1;
+    }
+
     const priceIndex = await this.getPriceIndex();
     const totalChaos = roundChaosValue(
       steps.reduce(
@@ -611,7 +741,8 @@ export class DataContext {
       estimatedCost: {
         chaos: totalChaos,
         divine: totalDivine
-      }
+      },
+      notes: collectRuleNotes(ruleMatches)
     };
 
     this.craftPlans.set(planId, plan);
@@ -662,7 +793,12 @@ export type {
   GemDefinition,
   CraftPlan,
   CraftStepDefinition,
-  CraftCost
+  CraftCost,
+  TagDefinition,
+  NameIndex,
+  NameIndexEntry,
+  PobBuildSummary,
+  CraftingRuleSet
 } from "./types.js";
 export { PriceIndex } from "./priceIndex.js";
 export { normalizeItemName } from "./normalize.js";

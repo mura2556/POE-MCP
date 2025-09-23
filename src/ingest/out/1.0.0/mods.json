@@ -1,0 +1,132 @@
+{
+  "mod-prefix-life-t1": {
+    "id": "mod-prefix-life-t1",
+    "name": "Fecund",
+    "tier": "T1",
+    "generationType": "prefix",
+    "description": "+125 to maximum Life",
+    "tags": [
+      "life",
+      "defence"
+    ],
+    "applicableTags": [
+      "armour",
+      "str",
+      "str/int"
+    ],
+    "minimumItemLevel": 82,
+    "domain": "item",
+    "group": "LocalLife",
+    "stats": [
+      "+# to maximum Life"
+    ],
+    "spawnWeights": [
+      {
+        "tag": "default",
+        "weight": 1000
+      },
+      {
+        "tag": "no_life",
+        "weight": 0
+      }
+    ]
+  },
+  "mod-suffix-resist-all-t2": {
+    "id": "mod-suffix-resist-all-t2",
+    "name": "of the Order",
+    "tier": "T2",
+    "generationType": "suffix",
+    "description": "+40% to all Elemental Resistances",
+    "tags": [
+      "resistance",
+      "defence"
+    ],
+    "applicableTags": [
+      "armour",
+      "jewellery",
+      "shield"
+    ],
+    "minimumItemLevel": 78,
+    "domain": "item",
+    "group": "ElementalResistances",
+    "stats": [
+      "+#% to Fire Resistance",
+      "+#% to Cold Resistance",
+      "+#% to Lightning Resistance"
+    ],
+    "spawnWeights": [
+      {
+        "tag": "default",
+        "weight": 1000
+      },
+      {
+        "tag": "no_resistance",
+        "weight": 0
+      }
+    ]
+  },
+  "mod-suffix-attack-speed-t3": {
+    "id": "mod-suffix-attack-speed-t3",
+    "name": "of Acceleration",
+    "tier": "T3",
+    "generationType": "suffix",
+    "description": "+14% increased Attack Speed",
+    "tags": [
+      "attack",
+      "speed"
+    ],
+    "applicableTags": [
+      "weapon",
+      "dex",
+      "bow"
+    ],
+    "minimumItemLevel": 70,
+    "domain": "item",
+    "group": "LocalAttackSpeed",
+    "stats": [
+      "+#% increased Attack Speed"
+    ],
+    "spawnWeights": [
+      {
+        "tag": "weapon",
+        "weight": 800
+      },
+      {
+        "tag": "default",
+        "weight": 1000
+      }
+    ]
+  },
+  "mod-prefix-spell-damage-t1": {
+    "id": "mod-prefix-spell-damage-t1",
+    "name": "Flaring",
+    "tier": "T1",
+    "generationType": "prefix",
+    "description": "+72% increased Spell Damage",
+    "tags": [
+      "spell",
+      "caster"
+    ],
+    "applicableTags": [
+      "wand",
+      "staff",
+      "int"
+    ],
+    "minimumItemLevel": 82,
+    "domain": "item",
+    "group": "LocalSpellDamage",
+    "stats": [
+      "+#% increased Spell Damage"
+    ],
+    "spawnWeights": [
+      {
+        "tag": "caster",
+        "weight": 800
+      },
+      {
+        "tag": "default",
+        "weight": 1000
+      }
+    ]
+  }
+}

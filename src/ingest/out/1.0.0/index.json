@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "createdAt": "2025-09-21T23:24:39.003Z",
+  "metadata": {
+    "league": "Ancestor",
+    "source": "ingest-pipeline",
+    "notes": "Generated from offline seed data for testing.",
+    "repoeMods": 4,
+    "repoeBases": 5,
+    "repoeGems": 3,
+    "priceTableCount": 3,
+    "pobBuilds": 2
+  },
+  "files": {
+    "prices": "prices.json",
+    "mods": "mods.json",
+    "bases": "bases.json",
+    "gems": "gems.json",
+    "tags": "tags.json",
+    "indices": "indices.json",
+    "pob": "pob.json",
+    "rules": "rules.json"
+  },
+  "stats": {
+    "itemCount": 6
+  }
+}
