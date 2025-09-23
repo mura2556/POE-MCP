@@ -1,0 +1,58 @@
+name: Update Homebrew Tap
+
+on:
+  release:
+    types: [published]
+
+env:
+  OFFICIAL_OWNER: anthropics
+  HAS_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN != '' }}
+
+jobs:
+  update:
+    if: github.repository_owner == env.OFFICIAL_OWNER
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip when tap token missing
+        if: env.HAS_TAP_TOKEN != 'true'
+        run: echo "HOMEBREW_TAP_TOKEN not configured; skipping tap update."
+
+      - name: Checkout tap repository
+        if: env.HAS_TAP_TOKEN == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/homebrew-poe-mcp
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          path: tap
+
+      - name: Download release asset
+        if: env.HAS_TAP_TOKEN == 'true'
+        working-directory: tap
+        env:
+          GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          gh release download ${{ github.event.release.tag_name }} --repo ${{ github.repository }} --pattern poe-mcp-src.zip --dir ..
+          echo "POE_MCP_SRC_SHA=$(shasum -a 256 ../poe-mcp-src.zip | awk '{print $1}')" >> "$GITHUB_ENV"
+
+      - name: Update formula
+        if: env.HAS_TAP_TOKEN == 'true'
+        working-directory: tap
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+          SRC_SHA: ${{ env.POE_MCP_SRC_SHA }}
+        run: |
+          sed -i "s|archive/refs/tags/.*.tar.gz|archive/refs/tags/${TAG_NAME}.tar.gz|" Formula/poe-mcp.rb
+          sed -i "s/sha256 \".*\"/sha256 \"${SRC_SHA}\"/" Formula/poe-mcp.rb
+
+      - name: Open pull request
+        if: env.HAS_TAP_TOKEN == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          path: tap
+          branch: update/${{ github.event.release.tag_name }}
+          commit-message: "chore: update poe-mcp formula for ${{ github.event.release.tag_name }}"
+          title: "chore: update poe-mcp formula for ${{ github.event.release.tag_name }}"
+          body: |
+            Update poe-mcp formula to release ${{ github.event.release.tag_name }}.
+            SHA256: ${{ env.POE_MCP_SRC_SHA }}

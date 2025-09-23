@@ -2,8 +2,31 @@
   "name": "poe-mcp",
   "version": "0.1.0",
   "description": "Offline-first Path of Exile MCP server with deterministic ETL and multi-client configs.",
-  "private": true,
   "type": "module",
+  "license": "Apache-2.0",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.cts",
+  "bin": {
+    "poe-mcp": "bin/poe-mcp"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.cts",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.cjs"
+    },
+    "./manifest.template.json": "./manifest.template.json",
+    "./schema": "./schema/json"
+  },
+  "files": [
+    "dist/**/*",
+    "bin/poe-mcp",
+    "bin/poe-mcp.cmd",
+    "schema/json/**/*",
+    "manifest.template.json",
+    "docs/**/*.md",
+    "LICENSES.txt"
+  ],
   "scripts": {
     "clean": "rimraf dist bin schema/json data/latest && find data -maxdepth 1 -type l -delete",
     "build": "tsup src/index.ts --format cjs --target node18 --sourcemap --dts --out-dir dist",
@@ -14,10 +37,11 @@
     "etl:incremental": "tsx src/cli/etl.ts --mode incremental",
     "data:validate": "tsx src/cli/validate.ts",
     "data:poe1-check": "pnpm build && pnpm etl:all && pnpm data:validate && pnpm exec vitest run --reporter=basic",
-    "mcp:start": "node dist/index.js serve --transport stdio",
+    "mcp:start": "node dist/index.cjs serve --transport stdio",
     "test": "vitest",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublishOnly": "pnpm build && pnpm build:schemas && pnpm data:validate"
   },
   "dependencies": {
     "ajv": "^8.12.0",
@@ -56,5 +80,9 @@
   },
   "engines": {
     "node": ">=18.18.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }

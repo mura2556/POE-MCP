@@ -42,7 +42,7 @@ LM Studio accepts Cursor-style configs. For local stdio, copy `dist/clients/lmst
 - Windows: `%APPDATA%\LM Studio\mcp.json`
 - Linux: `~/.config/LM Studio/mcp.json`
 
-For remote SSE mode, use `dist/clients/lmstudio.remote.mcp.json` and toggle the new **Remote MCP (beta)** panel. Ensure the HTTP server is running via `node dist/index.js serve --transport http --port 8765` and test with the in-app `Verify Connection` button.
+For remote SSE mode, use `dist/clients/lmstudio.remote.mcp.json` and toggle the new **Remote MCP (beta)** panel. Ensure the HTTP server is running via `node dist/index.cjs serve --transport http --port 8765` and test with the in-app `Verify Connection` button (LM Studio expects the SSE endpoint at `http://127.0.0.1:8765/sse`).
 
 ## AnythingLLM (Desktop & Docker)
 

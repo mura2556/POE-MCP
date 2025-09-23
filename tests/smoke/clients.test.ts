@@ -38,6 +38,26 @@ describe('client bundles', () => {
       }
     }
   });
+
+  it('documents canonical install paths for key clients', async () => {
+    const docs = await fs.readFile(path.resolve('docs/clients.md'), 'utf-8');
+    expect(docs).toContain('~/Library/Application Support/Claude/claude_desktop_config.json');
+    expect(docs).toContain('~/.cursor/mcp.json');
+    expect(docs).toContain('~/Library/Application Support/LM Studio/mcp.json');
+
+    const claudeConfig = JSON.parse(
+      await fs.readFile(path.resolve('dist/clients/claude_desktop_config.json'), 'utf-8'),
+    ) as Record<string, unknown>;
+    expect(claudeConfig).toHaveProperty('mcpServers');
+    const cursorConfig = JSON.parse(
+      await fs.readFile(path.resolve('dist/clients/cursor.mcp.json'), 'utf-8'),
+    ) as Record<string, unknown>;
+    expect(cursorConfig.mcpServers).toBeTruthy();
+    const lmStudioConfig = JSON.parse(
+      await fs.readFile(path.resolve('dist/clients/lmstudio.mcp.json'), 'utf-8'),
+    ) as Record<string, unknown>;
+    expect(lmStudioConfig.mcpServers).toBeTruthy();
+  });
 });
 
 describe('HTTP transport smoke test', () => {

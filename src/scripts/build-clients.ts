@@ -137,7 +137,7 @@ const clients: ClientConfig[] = [
     file: 'lmstudio.remote.mcp.json',
     content: JSON.stringify(
       {
-        mcpServers: [{ name: 'poe-mcp-remote', url: 'http://127.0.0.1:8765/rpc', transport: 'sse' }],
+        mcpServers: [{ name: 'poe-mcp-remote', url: 'http://127.0.0.1:8765/sse', transport: 'sse' }],
       },
       null,
       2,

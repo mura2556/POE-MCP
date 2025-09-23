@@ -1,51 +1,86 @@
-name: Release v0.1.0
+name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Tag to release (e.g. v0.1.0). Leave blank to use package.json version."
+        required: false
+
+env:
+  OFFICIAL_OWNER: anthropics
 
 jobs:
   release:
+    if: github.repository_owner == env.OFFICIAL_OWNER
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: pnpm/action-setup@v2
         with:
-          version: 8
-      - uses: actions/setup-node@v4
+          version: 10.5.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm'
+          cache: "pnpm"
+
       - name: Install dependencies
-        run: pnpm install
-      - name: Build core bundle
-        run: pnpm build
-      - name: Build schemas
-        run: pnpm build:schemas
-      - name: Build client configs
-        run: POE_MCP_CLIENTS_ABS=$(pwd) pnpm build:clients
-      - name: Build launcher scripts
-        run: pnpm build:bin
-      - name: Run ETL (full)
-        run: pnpm etl:all
-      - name: Validate dataset
-        run: pnpm data:validate
+        run: pnpm install --frozen-lockfile
+
+      - name: Build bundles
+        run: |
+          pnpm build
+          pnpm build:bin
+          pnpm build:schemas
+          pnpm build:clients
+
+      - name: Run ETL and validation
+        run: |
+          pnpm etl:all
+          pnpm data:validate
+
       - name: Run tests
-        run: bash -c "set -o pipefail && pnpm exec vitest run --reporter=basic | tee vitest-report.txt"
-      - name: Package release artifacts
+        run: pnpm exec vitest run --reporter=basic
+
+      - name: Determine tag
+        id: meta
         run: |
-          tar -czf data-latest.tar.gz -C data latest
-          tar -czf clients.tar.gz -C dist clients
-      - name: Ensure GitHub release exists
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if gh release view v0.1.0 >/dev/null 2>&1; then
-            echo "Release v0.1.0 already exists.";
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "tag=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
           else
-            gh release create v0.1.0 --generate-notes;
+            echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
           fi
-      - name: Upload release assets
+
+      - name: Prepare release assets
+        run: |
+          mkdir -p artifacts
+          zip -r artifacts/poe-mcp-clients.zip dist/clients
+          zip -r artifacts/poe-mcp-src.zip \
+            bin dist schema docs fixtures scripts packaging manifest.json manifest.template.json package.json pnpm-lock.yaml README.md CHANGELOG.md LICENSES.txt \
+            -x 'node_modules/*'
+
+      - name: Ensure release exists
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ steps.meta.outputs.tag }}
         run: |
-          gh release upload v0.1.0 data-latest.tar.gz clients.tar.gz manifest.json dist/coverage/coverage.json dist/coverage/coverage.txt --clobber
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Release $TAG_NAME already exists."
+          else
+            gh release create "$TAG_NAME" --generate-notes --title "$TAG_NAME"
+          fi
+
+      - name: Upload assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ steps.meta.outputs.tag }}
+        run: |
+          gh release upload "$TAG_NAME" artifacts/poe-mcp-clients.zip artifacts/poe-mcp-src.zip manifest.json dist/coverage/coverage.json dist/coverage/coverage.txt --clobber

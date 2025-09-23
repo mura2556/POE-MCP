@@ -1,0 +1,60 @@
+name: Publish npm Package
+
+on:
+  release:
+    types: [published]
+
+env:
+  OFFICIAL_OWNER: anthropics
+  GITHUB_NPM_REGISTRY: https://npm.pkg.github.com
+
+jobs:
+  publish:
+    if: github.repository_owner == env.OFFICIAL_OWNER
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.5.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
+
+      - name: Publish to GitHub Packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          cp package.json package.json.bak
+          node <<'NODE'
+          const fs = require('node:fs');
+          const owner = process.env.OWNER;
+          const registry = process.env.GITHUB_NPM_REGISTRY;
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          pkg.name = `@${owner}/${pkg.name}`;
+          pkg.publishConfig = {
+            access: 'public',
+            registry,
+          };
+          fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          NODE
+          npm publish --registry ${{ env.GITHUB_NPM_REGISTRY }}
+          mv package.json.bak package.json

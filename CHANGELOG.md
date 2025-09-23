@@ -8,6 +8,7 @@ All notable changes to this project are documented here, following [Keep a Chang
 - Client smoke tests validating JSON/YAML generation, placeholder preservation, and HTTP JSON-RPC reachability.
 - Machine-readable and human-readable coverage reports under `dist/coverage/`.
 - Comprehensive MCP client documentation with OS-specific copy paths and first-run checks.
+- Multi-channel distribution: Docker image spec, npm CLI package, Homebrew formula template, and Scoop manifest scaffolding.
 
 ### Data
 - Configurable `POE_MCP_NINJA_LEAGUES` environment variable to pin poe.ninja pulls to specific PoE1 leagues.
@@ -16,6 +17,7 @@ All notable changes to this project are documented here, following [Keep a Chang
 ### CI
 - Nightly job archives `data/latest/`, `manifest.json`, client bundles, coverage artifacts, and Vitest output.
 - Release workflow publishes tarballs and coverage reports to the `v0.1.0` GitHub release.
+- Docker and npm publish pipelines guarded to run only for the official repository owner.
 
 ### Clients
 - Hardened `build:clients` to keep `{{ABS_PATH}}` placeholders until explicitly substituted.

@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "description": "PoE1-only MCP server with deterministic ETL, schemas, and coverage validation.",
+  "homepage": "https://github.com/<OWNER>/poe-mcp",
+  "license": "Apache-2.0",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/<OWNER>/poe-mcp/releases/download/v0.1.0/poe-mcp-src.zip",
+      "hash": "REPLACE_WITH_RELEASE_SHA256",
+      "extract_dir": "poe-mcp"
+    }
+  },
+  "pre_install": [
+    "if (!(Test-Path \"$dir\\bin\")) { New-Item -ItemType Directory -Path \"$dir\\bin\" | Out-Null }",
+    "Set-Content -Path \"$dir\\bin\\poe-mcp.cmd\" -Value '@echo off\r\nnode %~dp0..\\dist\\index.cjs %*\r\n'"
+  ],
+  "bin": [
+    [
+      "bin/poe-mcp.cmd",
+      "poe-mcp"
+    ]
+  ],
+  "post_install": [
+    "Write-Host 'Run `poe-mcp etl:all` to build datasets before serving.'"
+  ]
+}

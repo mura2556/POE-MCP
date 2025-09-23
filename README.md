@@ -30,6 +30,32 @@ The commands above compile the TypeScript source, regenerate JSON Schema artifac
 > **Note**
 > `manifest.json` ships as a blank template; running the ETL pipeline overwrites it based on the rules described in `manifest.template.json`.
 
+### Install via Docker | npm | Homebrew | Scoop
+
+Pick the distribution channel that best fits your environment (all variants preserve the PoE1-only validation gates):
+
+| Channel | Install | Run |
+| --- | --- | --- |
+| Docker | `docker run -p 8765:8765 ghcr.io/<OWNER>/poe-mcp:latest` | Connect clients to `http://127.0.0.1:8765` (SSE endpoint `/sse`). |
+| npm (global) | `npm i -g poe-mcp` | `poe-mcp etl:all` then `poe-mcp serve --transport http --port 8765`. |
+| Homebrew (macOS) | `brew tap <OWNER>/poe-mcp` then `brew install poe-mcp` | `poe-mcp serve --transport stdio` for Claude/Cursor, or `--transport http` for SSE clients. |
+| Scoop (Windows) | `scoop bucket add poe-mcp https://github.com/<OWNER>/scoop-poe-mcp` then `scoop install poe-mcp` | Launch via the installed `poe-mcp.cmd` shim and select transport. |
+
+> Replace `<OWNER>` with the canonical GitHub owner that publishes the official release artifacts (see [Release process](#release-process)).
+
+Reference templates for the Homebrew formula and Scoop manifest live under [`packaging/`](packaging/); the release automation updates downstream taps/buckets once the official secrets are configured.
+
+### CLI overview
+
+Once installed (either from source or via npm/Homebrew/Scoop), use the bundled CLI:
+
+```bash
+poe-mcp etl:all            # full rebuild into data/<DATE>/
+poe-mcp etl:incremental    # targeted refresh into data/latest
+poe-mcp serve              # defaults to stdio; pass --transport http for SSE
+poe-mcp verify:coverage    # run PoE1 + coverage checks and emit coverage.{json,txt}
+```
+
 ### Quick start by client
 
 | Client | Copy command (macOS) | Config path | First call |
@@ -116,7 +142,7 @@ Start the server via:
 
 ```bash
 pnpm mcp:start                 # stdio transport
-node dist/index.js serve --transport http --port 8765  # HTTP transport
+node dist/index.cjs serve --transport http --port 8765  # HTTP transport
 ```
 
 See [`docs/clients.md`](docs/clients.md) for per-application instructions and copy commands. All configs reference the project binary through a `{{ABS_PATH}}` placeholder; running `pnpm build:clients` rewrites the files with absolute paths.
@@ -149,6 +175,17 @@ pnpm test
 ```
 
 Vitest suites cover ETL normalization, manifest metadata, crafting lookups, MCP tool behavior, and fixture-driven regressions for item parsing and PoB encoding.
+
+## Release process
+
+The automated release workflow (`.github/workflows/release.yml`) is restricted to the official maintainer (`OFFICIAL_OWNER` in workflow env). To publish a new build:
+
+1. Ensure `pnpm-lock.yaml` is committed and that `pnpm build`, `pnpm etl:all`, and `pnpm data:validate` succeed locally.
+2. Trigger the **Release** workflow via *Actions → Release → Run workflow* and optionally provide a tag (for example `v0.1.1`). If omitted, the workflow uses the version from `package.json`.
+3. The workflow rebuilds the project, reruns the PoE1 validation gates, executes the full ETL, packages `dist/clients`, `manifest.json`, coverage reports, and a `poe-mcp-src.zip` archive, and attaches them to the GitHub Release.
+4. Downstream automation publishes the npm package, Docker image, Homebrew tap PR, and Scoop manifest (guarded to run only for the canonical owner and when required secrets are present).
+
+> Forks should update the `OFFICIAL_OWNER` value in the workflows or leave it untouched to prevent accidental publishing from non-official repositories.
 
 ## Licensing & provenance
 
