@@ -40,7 +40,7 @@ const ModSchema = z.object({
   id: z.string(),
   name: z.string(),
   tier: z.string(),
-  generationType: z.enum(["prefix", "suffix", "implicit"]),
+  generationType: z.enum(["prefix", "suffix", "implicit", "enchant"]),
   description: z.string(),
   tags: z.array(z.string()),
   applicableTags: z.array(z.string()),

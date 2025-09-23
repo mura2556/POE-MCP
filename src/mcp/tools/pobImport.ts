@@ -26,11 +26,11 @@ const OutputSchema = createToolOutputSchema({
   build: StoredBuildSchema
 });
 
-type StoredBuild = z.infer<typeof OutputSchema>;
-
 const formatResult = (
   build: z.infer<typeof StoredBuildSchema>
-): ToolHandlerResult<Omit<StoredBuild, "snapshotVersion" | "league">> => ({
+): ToolHandlerResult<
+  Omit<z.infer<typeof OutputSchema>, "snapshotVersion" | "league">
+> => ({
   data: {
     buildId: build.id,
     name: build.name,
@@ -57,7 +57,9 @@ export const registerPobImportTool = (context: ToolRegistrationContext) => {
       }
     },
     wrapToolHandler(context, InputSchema, async ({ build, id }) => {
-      const stored = context.dataContext.importPobBuild(build, id);
+      const parsedBuild =
+        typeof build === "string" ? build : PobBuildSchema.parse(build);
+      const stored = context.dataContext.importPobBuild(parsedBuild, id);
       return formatResult(stored);
     })
   );

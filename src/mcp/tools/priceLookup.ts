@@ -4,6 +4,12 @@ import { normalizeItemName } from "../../data/normalize.js";
 import type { ItemPrice } from "../../data/types.js";
 import type { ToolRegistrationContext } from "./types.js";
 
+interface PriceLookupArgs {
+  name: string;
+  exact?: boolean;
+  limit?: number;
+}
+
 const outputSchema = {
   snapshot: z.object({
     createdAt: z.string(),
@@ -65,7 +71,7 @@ export const registerPriceLookupTool = (
       },
       outputSchema
     },
-    async ({ name, exact = false, limit = 5 }) => {
+    async ({ name, exact = false, limit = 5 }: PriceLookupArgs) => {
       const priceIndex = await context.dataContext.getPriceIndex();
       const normalized = normalizeItemName(name);
 

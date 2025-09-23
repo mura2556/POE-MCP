@@ -16,6 +16,7 @@ export interface IngestionOptions {
   snapshotDir: string;
   logger?: Logger;
   version?: string;
+  forceRefresh?: boolean;
 }
 
 export interface IngestionResult {

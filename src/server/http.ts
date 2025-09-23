@@ -1,4 +1,8 @@
-import Fastify, { FastifyInstance } from "fastify";
+import Fastify, {
+  FastifyInstance,
+  type FastifyReply,
+  type FastifyRequest
+} from "fastify";
 
 import type { AppConfig } from "../config/index.js";
 import type { DataContext } from "../data/index.js";
@@ -29,7 +33,10 @@ export const startHttpServer = async (
 
   app.get<{
     Params: { name: string };
-  }>("/prices/:name", async (request, reply) => {
+  }>("/prices/:name", async (
+    request: FastifyRequest<{ Params: { name: string } }>,
+    reply: FastifyReply
+  ) => {
     const priceIndex = await dataContext.getPriceIndex();
     const item = priceIndex.getByName(request.params.name);
     if (!item) {
@@ -42,7 +49,9 @@ export const startHttpServer = async (
 
   app.get<{
     Querystring: { q?: string; limit?: string };
-  }>("/prices", async (request) => {
+  }>("/prices", async (
+    request: FastifyRequest<{ Querystring: { q?: string; limit?: string } }>
+  ) => {
     const query = request.query.q ?? "";
     const limit = request.query.limit
       ? Number.parseInt(request.query.limit, 10)

@@ -5,6 +5,11 @@ import type { ToolRegistrationContext } from "./types.js";
 export const registerSearchPricesTool = (
   context: ToolRegistrationContext
 ) => {
+  interface SearchPricesArgs {
+    query: string;
+    limit?: number;
+  }
+
   context.server.registerTool(
     "search_prices",
     {
@@ -33,7 +38,7 @@ export const registerSearchPricesTool = (
         )
       }
     },
-    async ({ query, limit = 10 }) => {
+    async ({ query, limit = 10 }: SearchPricesArgs) => {
       const priceIndex = await context.dataContext.getPriceIndex();
       const matches = priceIndex.search(query, limit).map((item) => ({
         itemId: item.itemId,
