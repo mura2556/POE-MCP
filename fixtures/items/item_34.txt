@@ -1,0 +1,12 @@
+Rarity: Rare
+Amber Amulet
+--------
+Requirements:
+Level: 8
+--------
+Item Level: 82
+--------
++20 to Dexterity
++15% to Fire Resistance
+--------
+Corrupted

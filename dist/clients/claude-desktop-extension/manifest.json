@@ -1,0 +1,6 @@
+{
+  "name": "poe-mcp-extension",
+  "version": "1.0.0",
+  "description": "Launches poe-mcp with stdio transport for Claude Desktop.",
+  "entry": "launch.sh"
+}

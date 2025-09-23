@@ -1,9 +1,0 @@
-{
-  "description": "Example configuration for running the PoE MCP server with HTTP enabled.",
-  "env": {
-    "HOST": "0.0.0.0",
-    "PORT": "3333",
-    "HTTP_ENABLED": "true",
-    "SNAPSHOT_DIR": "src/ingest/out"
-  }
-}

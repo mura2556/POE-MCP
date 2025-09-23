@@ -1,0 +1,24 @@
+# MCP client configuration
+
+| Client | Windows path | macOS path | Linux path | Copy command |
+| --- | --- | --- | --- | --- |
+| Claude Desktop | %APPDATA%/Claude/claude_desktop_config.json | ~/Library/Application Support/Claude/claude_desktop_config.json | ~/.config/Claude/claude_desktop_config.json | cp dist/clients/claude_desktop_config.json "~/Library/Application Support/Claude/claude_desktop_config.json" |
+| Claude Web Connector | Upload via Claude.ai settings | Upload via Claude.ai settings | Upload via Claude.ai settings | N/A |
+| Cursor | %USERPROFILE%/.cursor/mcp.json | ~/.cursor/mcp.json | ~/.cursor/mcp.json | cp dist/clients/cursor.mcp.json ~/.cursor/mcp.json |
+| LM Studio (local stdio) | %APPDATA%/LM Studio/mcp.json | ~/Library/Application Support/LM Studio/mcp.json | ~/.config/LM Studio/mcp.json | cp dist/clients/lmstudio.mcp.json "~/Library/Application Support/LM Studio/mcp.json" |
+| AnythingLLM Desktop | %APPDATA%/anythingllm-desktop/storage/plugins/anythingllm_mcp_servers.json | ~/Library/Application Support/anythingllm-desktop/storage/plugins/anythingllm_mcp_servers.json | ~/.config/anythingllm/storage/plugins/anythingllm_mcp_servers.json | cp dist/clients/anythingllm_mcp_servers.json "~/Library/Application Support/anythingllm-desktop/storage/plugins/anythingllm_mcp_servers.json" |
+| Open WebUI via mcpo | Project docker-compose location | Project docker-compose location | Project docker-compose location | cp dist/clients/openwebui.mcpo.yaml ./docker-compose.mcpo.yaml |
+| VS Code MCP | %APPDATA%/Code/User/globalStorage/github.copilot/chat/mcp.json | ~/Library/Application Support/Code/User/globalStorage/github.copilot/chat/mcp.json | ~/.config/Code/User/globalStorage/github.copilot/chat/mcp.json | cp dist/clients/vscode.mcp.json "~/Library/Application Support/Code/User/globalStorage/github.copilot/chat/mcp.json" |
+| Visual Studio | %USERPROFILE%/.mcp.json | ~/.mcp.json | ~/.mcp.json | cp dist/clients/visualstudio.mcp.json ~/.mcp.json |
+| Continue.dev | %APPDATA%/Continue/config.yaml | ~/Library/Application Support/Continue/config.yaml | ~/.config/Continue/config.yaml | cp dist/clients/continue.mcp.yaml "~/Library/Application Support/Continue/config.yaml" |
+| Claude Desktop Extension Bundle | Use Claude Desktop extension manager | Use Claude Desktop extension manager | Use Claude Desktop extension manager | cd dist/clients/claude-desktop-extension && zip -r ../claude-poe-mcp.zip . |
+| JetBrains IDEs | %APPDATA%/Continue/config.yaml | ~/Library/Application Support/Continue/config.yaml | ~/.config/Continue/config.yaml | cp dist/clients/jetbrains.continue.mcp.yaml "~/Library/Application Support/Continue/config.yaml" |
+| OpenRouter IDE Bridge | %USERPROFILE%/.openrouter/mcp.json | ~/.openrouter/mcp.json | ~/.openrouter/mcp.json | cp dist/clients/openrouter.mcp.json ~/.openrouter/mcp.json |
+| LM Studio Remote SSE | %APPDATA%/LM Studio/mcp.remote.json | ~/Library/Application Support/LM Studio/mcp.remote.json | ~/.config/LM Studio/mcp.remote.json | cp dist/clients/lmstudio.remote.mcp.json "~/Library/Application Support/LM Studio/mcp.remote.json" |
+| Raycast | %APPDATA%/Raycast/mcp.json | ~/Library/Application Support/Raycast/mcp.json | ~/.config/Raycast/mcp.json | cp dist/clients/raycast.mcp.json "~/Library/Application Support/Raycast/mcp.json" |
+| AnythingLLM Agents Page | %APPDATA%/anythingllm-desktop/storage/agents/anythingllm_agents.json | ~/Library/Application Support/anythingllm-desktop/storage/agents/anythingllm_agents.json | ~/.config/anythingllm/storage/agents/anythingllm_agents.json | cp dist/clients/anythingllm_agents.json "~/Library/Application Support/anythingllm-desktop/storage/agents/anythingllm_agents.json" |
+| Obsidian MCP Plugin Template | %APPDATA%/Obsidian/Community Plugins/poe-mcp-plugin/ | ~/Library/Application Support/obsidian/Community Plugins/poe-mcp-plugin/ | ~/.config/obsidian/Community Plugins/poe-mcp-plugin/ | cp -R dist/clients/obsidian-mcp-plugin "~/Library/Application Support/obsidian/Community Plugins/poe-mcp-plugin" |
+| Zed IDE | %APPDATA%/Zed/settings/mcp.json | ~/Library/Application Support/Zed/settings/mcp.json | ~/.config/Zed/settings/mcp.json | cp dist/clients/zed.mcp.json "~/Library/Application Support/Zed/settings/mcp.json" |
+| Codeium / Sourcegraph Agents | %APPDATA%/Codeium/mcp.json | ~/Library/Application Support/Codeium/mcp.json | ~/.config/Codeium/mcp.json | cp dist/clients/codeium.mcp.json "~/Library/Application Support/Codeium/mcp.json" |
+| Open WebUI Direct SSE | %APPDATA%/open-webui/mcp.yaml | ~/.config/open-webui/mcp.yaml | ~/.config/open-webui/mcp.yaml | cp dist/clients/openwebui.direct.yaml ~/.config/open-webui/mcp.yaml |
+| Generic Web MCP Host | Any static hosting directory | Any static hosting directory | Any static hosting directory | cp dist/clients/generic-web-host.html . |

@@ -1,26 +1,60 @@
 {
   "name": "poe-mcp",
   "version": "0.1.0",
+  "description": "Offline-first Path of Exile MCP server with deterministic ETL and multi-client configs.",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc --project tsconfig.json",
-    "start": "node dist/server/index.js",
-    "dev": "tsx watch src/server/index.ts",
-    "ingest": "tsx src/ingest/index.ts",
-    "test": "vitest"
+    "clean": "rimraf dist bin schema/json data/latest && find data -maxdepth 1 -type l -delete",
+    "build": "tsup src/index.ts --format cjs --target node18 --sourcemap --dts --out-dir dist",
+    "build:schemas": "tsx src/scripts/build-schemas.ts",
+    "build:clients": "tsx src/scripts/build-clients.ts",
+    "build:bin": "tsx src/scripts/build-bin.ts",
+    "etl:all": "tsx src/cli/etl.ts --mode full",
+    "etl:incremental": "tsx src/cli/etl.ts --mode incremental",
+    "data:validate": "tsx src/cli/validate.ts",
+    "data:poe1-check": "pnpm build && pnpm etl:all && pnpm data:validate && pnpm exec vitest run --reporter=basic",
+    "mcp:start": "node dist/index.js serve --transport stdio",
+    "test": "vitest",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "format": "prettier --write ."
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.18.1",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^3.0.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
     "dotenv": "^16.4.5",
-    "fastify": "^4.26.2",
-    "pino": "^8.17.1",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
+    "js-yaml": "^4.1.0",
+    "luxon": "^3.4.4",
+    "node-fetch": "^3.3.2",
+    "pako": "^2.1.0",
+    "parquetjs-lite": "^0.8.7",
+    "rimraf": "^5.0.5",
+    "simple-git": "^3.22.0",
+    "strip-json-comments": "^5.0.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
+    "@types/fs-extra": "^11.0.4",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.12.7",
+    "@types/pako": "^2.0.0",
+    "@types/parquetjs": "^0.10.6",
+    "@vitest/coverage-v8": "^1.6.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "prettier": "^3.2.5",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.2",
     "typescript": "^5.4.5",
-    "vitest": "^1.5.1",
-    "tsx": "^4.7.1"
+    "vitest": "^1.6.0",
+    "zod-to-json-schema": "^3.22.1"
+  },
+  "engines": {
+    "node": ">=18.18.0"
   }
 }

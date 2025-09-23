@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "poe-mcp": {
+      "command": "{{ABS_PATH}}/bin/poe-mcp",
+      "args": [
+        "serve",
+        "--transport",
+        "stdio"
+      ],
+      "enabled": true
+    }
+  }
+}

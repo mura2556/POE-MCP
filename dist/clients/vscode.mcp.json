@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "poe": {
+      "command": "{{ABS_PATH}}/bin/poe-mcp",
+      "args": [
+        "serve",
+        "--transport",
+        "stdio"
+      ],
+      "env": {}
+    }
+  },
+  "tools": {
+    "poe": [
+      "search_data",
+      "item_parse",
+      "crafting_lookup",
+      "economy_snapshot"
+    ]
+  }
+}
