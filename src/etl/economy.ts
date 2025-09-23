@@ -1,17 +1,26 @@
+import path from 'node:path';
 import { fetchLeagues } from '../adapters/poeDev.js';
 import { fetchNinjaOverview, type NinjaSnapshot } from '../adapters/poeNinja.js';
 import { assertPoe1 } from '../validate/noPoe2.js';
-import type { ManifestSourceEntry } from '../utils/manifest.js';
+import { loadManifest, type ManifestSourceEntry } from '../utils/manifest.js';
 import { loadConfig } from '../config/index.js';
 
 export interface EconomyDataset {
   snapshots: NinjaSnapshot[];
   leagues: string[];
+  selectedLeague: string;
 }
 
-export async function loadEconomySnapshots(): Promise<{ data: EconomyDataset; manifest: ManifestSourceEntry }> {
+export async function loadEconomySnapshots(options: { overrideLeague?: string } = {}): Promise<{
+  data: EconomyDataset;
+  manifest: ManifestSourceEntry;
+}> {
   const cfg = loadConfig();
   try {
+    const existingManifest = await loadManifest(cfg.manifestPath);
+    const previousNinja = existingManifest?.sources.find((source) => source.name.startsWith('poe.ninja'));
+    const ifModifiedSince = previousNinja?.lastModified;
+    const cacheDir = path.join(cfg.cacheDir, 'poe-ninja');
     const leagues = await fetchLeagues();
     const defaultLeagues = leagues
       .filter((league) => {
@@ -21,19 +30,35 @@ export async function loadEconomySnapshots(): Promise<{ data: EconomyDataset; ma
       .map((league) => league.id)
       .slice(0, 3);
     const configuredLeagues = cfg.poeNinjaLeagues;
+    const detectedCurrent = leagues.find((league) => {
+      if (league.endAt && Date.parse(league.endAt) < Date.now()) {
+        return false;
+      }
+      const lower = league.id.toLowerCase();
+      return !lower.includes('hardcore') && !lower.includes('ssf') && !lower.includes('ruthless');
+    });
+    const preferredLeague = options.overrideLeague ?? configuredLeagues[0] ?? detectedCurrent?.id ?? 'Standard';
     const leagueIds = (configuredLeagues.length > 0 ? configuredLeagues : defaultLeagues).filter(Boolean);
-    const uniqueLeagueIds = Array.from(new Set(leagueIds.length > 0 ? leagueIds : ['Standard']));
+    const uniqueLeagueIds = Array.from(new Set([preferredLeague, ...leagueIds].filter(Boolean)));
     const snapshots: NinjaSnapshot[] = [];
     for (const leagueId of uniqueLeagueIds) {
       assertPoe1(leagueId, `league:${leagueId}`);
-      const currency = await fetchNinjaOverview(leagueId, 'currency');
-      const items = await fetchNinjaOverview(leagueId, 'item');
+      const currency = await fetchNinjaOverview(leagueId, 'currency', {
+        ifModifiedSince,
+        cacheDir,
+      });
+      const items = await fetchNinjaOverview(leagueId, 'item', {
+        ifModifiedSince,
+        cacheDir,
+      });
       snapshots.push(currency, items);
     }
+    const lastModified = snapshots.find((snapshot) => snapshot.lastModified)?.lastModified ?? ifModifiedSince;
     return {
       data: {
         snapshots,
         leagues: uniqueLeagueIds,
+        selectedLeague: preferredLeague,
       },
       manifest: {
         name: 'poe.ninja',
@@ -42,6 +67,8 @@ export async function loadEconomySnapshots(): Promise<{ data: EconomyDataset; ma
         license: 'CC-BY-NC-4.0',
         hash: snapshots.map((s) => s.generatedAt).join(','),
         poe_version: 'PoE1',
+        metadata: { selectedLeague: preferredLeague, leagues: uniqueLeagueIds },
+        lastModified,
       },
     };
   } catch (error) {
@@ -65,6 +92,7 @@ export async function loadEconomySnapshots(): Promise<{ data: EconomyDataset; ma
           },
         ],
         leagues: [fallbackLeague],
+        selectedLeague: fallbackLeague,
       },
       manifest: {
         name: 'poe.ninja (fallback)',
@@ -74,6 +102,8 @@ export async function loadEconomySnapshots(): Promise<{ data: EconomyDataset; ma
         hash: 'fallback',
         poe_version: 'PoE1',
         warnings: ['Network access unavailable; generated deterministic fallback economy snapshot.'],
+        metadata: { selectedLeague: fallbackLeague },
+        lastModified: new Date().toISOString(),
       },
     };
   }

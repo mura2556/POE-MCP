@@ -1,7 +1,7 @@
-import fetch from 'node-fetch';
 import type { RequestInit } from 'node-fetch';
 import { loadConfig } from '../config/index.js';
 import { assertPoe1 } from '../validate/noPoe2.js';
+import { fetchWithRetry } from '../utils/httpClient.js';
 
 async function poeRequest<T>(url: string, init: RequestInit = {}): Promise<T> {
   const cfg = loadConfig();
@@ -13,7 +13,11 @@ async function poeRequest<T>(url: string, init: RequestInit = {}): Promise<T> {
   if (cfg.poeSessionId) {
     headers.Cookie = `POESESSID=${cfg.poeSessionId}`;
   }
-  const response = await fetch(url, { ...init, headers: { ...headers, ...(init.headers as Record<string, string> | undefined) } });
+  const response = await fetchWithRetry(
+    url,
+    { ...init, headers: { ...headers, ...(init.headers as Record<string, string> | undefined) } },
+    { adapter: 'poeDev' },
+  );
   if (!response.ok) {
     throw new Error(`Failed request ${url}: ${response.status}`);
   }

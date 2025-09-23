@@ -21,3 +21,23 @@ jobs:
         run: pnpm install
       - name: PoE1 dataset check
         run: pnpm data:poe1-check
+      - name: Generate SBOM
+        run: pnpm security:sbom
+      - name: Install DuckDB CLI
+        run: pip install duckdb
+      - name: Validate DuckDB helper queries
+        run: |
+          python - <<'PY'
+          import duckdb
+          import pathlib
+
+          con = duckdb.connect()
+          script = pathlib.Path('scripts/duckdb.sql').read_text()
+          statements = [stmt.strip() for stmt in script.split(';') if stmt.strip()]
+          for stmt in statements:
+            con.execute(stmt)
+          result = con.execute("SELECT COUNT(*) FROM mods").fetchone()[0]
+          print('mods rows:', result)
+          PY
+        env:
+          PYTHONPATH: ''

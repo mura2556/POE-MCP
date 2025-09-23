@@ -11,6 +11,20 @@ The `build:clients` script will rewrite every command entry to point at your loc
 
 ## Claude Desktop
 
+Claude Desktop stores the MCP profile in `claude_desktop_config.json`. The generated file already enables stdio transport:
+
+```json
+{
+  "mcpServers": {
+    "poe-mcp": {
+      "command": "{{ABS_PATH}}/bin/poe-mcp",
+      "args": ["serve", "--transport", "stdio"],
+      "enabled": true
+    }
+  }
+}
+```
+
 | Platform | Copy path | Command |
 | --- | --- | --- |
 | macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` | `cp dist/clients/claude_desktop_config.json "~/Library/Application Support/Claude/claude_desktop_config.json"` |
@@ -33,6 +47,7 @@ cp dist/clients/cursor.mcp.json ~/.cursor/mcp.json
 ```
 
 Launch Cursor and open **Settings → MCP** to confirm that `poe-mcp` is enabled. Run a quick test from the in-editor command palette: `poe-mcp: search_data BaseItem Amulet`.
+For HTTP/SSE testing, point Cursor at `http://127.0.0.1:8765/sse` after launching `poe-mcp serve --transport http --metrics --health`.
 
 ## LM Studio (>= v0.3.17)
 
@@ -42,7 +57,7 @@ LM Studio accepts Cursor-style configs. For local stdio, copy `dist/clients/lmst
 - Windows: `%APPDATA%\LM Studio\mcp.json`
 - Linux: `~/.config/LM Studio/mcp.json`
 
-For remote SSE mode, use `dist/clients/lmstudio.remote.mcp.json` and toggle the new **Remote MCP (beta)** panel. Ensure the HTTP server is running via `node dist/index.cjs serve --transport http --port 8765` and test with the in-app `Verify Connection` button (LM Studio expects the SSE endpoint at `http://127.0.0.1:8765/sse`).
+For remote SSE mode, use `dist/clients/lmstudio.remote.mcp.json` and toggle the new **Remote MCP (beta)** panel. Ensure the HTTP server is running via `poe-mcp serve --transport http --metrics --health --port 8765` and test with the in-app `Verify Connection` button (LM Studio expects the SSE endpoint at `http://127.0.0.1:8765/sse`).
 
 ## AnythingLLM (Desktop & Docker)
 
@@ -54,19 +69,7 @@ From the AnythingLLM UI open **Plugins → MCP Servers** and toggle `poe-mcp` to
 
 ## Open WebUI via mcpo bridge
 
-Use the generated compose bundle `dist/clients/openwebui+mcpo.compose.yaml`:
-
-```bash
-cp dist/clients/openwebui+mcpo.compose.yaml ./docker-compose.poe-mcp.yaml
-docker compose -f docker-compose.poe-mcp.yaml up -d
-```
-
-Run a health check:
-
-```bash
-curl http://localhost:3000/openapi.json | head
-```
-
+Use the generated compose bundle `dist/clients/openwebui+mcpo.compose.yaml`. Detailed instructions live in [docs/openwebui.md](./openwebui.md), including health checks and teardown commands.
 Open WebUI should now expose the `poe-mcp` tools under **Integrations → MCP**. A direct SSE config is also available at `dist/clients/openwebui.direct.yaml` for builds that ship native MCP support.
 
 ---

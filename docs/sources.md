@@ -1,8 +1,10 @@
 # Data sources
 
+> ⚠️ **PoE1 ONLY** – Every adapter and validation step rejects PoE2 repositories, identifiers, and mechanics. Forked builds must preserve the allowlist/denylist below.
+
 | Source | URL | License | Notes |
 | --- | --- | --- | --- |
-| Path of Building Community | https://github.com/PathOfBuildingCommunity/PathOfBuilding | MIT | Passive tree metadata, PoB encoding | 
+| Path of Building Community | https://github.com/PathOfBuildingCommunity/PathOfBuilding | MIT | Passive tree metadata, PoB encoding |
 | RePoE | https://github.com/brather1ng/RePoE | CC-BY-SA-4.0 | Canonical base/mod/gem/passive definitions |
 | PyPoE | https://github.com/OmegaK2/PyPoE | MIT | GGPK extraction utilities and dat file helpers |
 | Official PoE API | https://www.pathofexile.com/developer/docs/api | ToS-bound | Read-only league metadata and trade static endpoints; no automated searches |
@@ -10,6 +12,17 @@
 | Community PoB builds | Various GitHub gists/repos | Mixed (per entry) | Manifest records per-build provenance |
 
 The ETL pipeline records the precise commit SHA, license text, checksum, and retrieval metadata in `manifest.json` for reproducibility. PoE2 data is explicitly filtered at the adapter layer and further guarded by validation.
+
+## Usage guidelines
+
+| Upstream | Do | Don't |
+| --- | --- | --- |
+| Path of Building Community | Clone `master`, respect MIT license attribution, use PoE1 tree JSON only. | Do **not** access `PathOfBuilding-PoE2`, PoE2 branches, or experimental rune data. |
+| RePoE | Cache JSON stats/mods locally and cite CC-BY-SA. | Avoid mutating upstream JSON or mixing PoE2 mods. |
+| PyPoE | Use for GGPK schema references and dat field lookups. | Do not run bulk GGPK extraction on PoE2 packs. |
+| Official PoE API | Pull `/leagues` and `/api/trade/data/*` with polite rate limiting + `If-Modified-Since`. | Do not automate trade searches, stash dumps, or PoE2 beta endpoints. |
+| poe.ninja | Query PoE1 `currencyoverview` / `itemoverview` endpoints for the selected leagues. | Avoid PoE2 league IDs or scraping item listings. |
+| Community PoB builds | Respect individual repo/gist licenses and manifest provenance. | Exclude PoE2-labelled builds or private league dumps. |
 
 ## PoE1 allowlist vs PoE2 denylist
 

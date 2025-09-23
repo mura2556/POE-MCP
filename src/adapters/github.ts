@@ -2,9 +2,11 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { tmpdir } from 'node:os';
 import simpleGit from 'simple-git';
-import fetch from 'node-fetch';
 import { loadConfig } from '../config/index.js';
 import { assertPoe1 } from '../validate/noPoe2.js';
+import { fetchWithRetry } from '../utils/httpClient.js';
+import { cacheHitsTotal } from '../utils/metrics.js';
+import { logInfo } from '../utils/logger.js';
 
 export interface GitRepoResult {
   localPath: string;
@@ -32,6 +34,11 @@ export async function cloneOrUpdateRepo(url: string, ref: string = 'master'): Pr
     } catch (cloneError) {
       await simpleGit().clone(url, targetDir);
     }
+    logInfo('Cloned repository', { scope: 'adapter:github', provenance: url, ref });
+  }
+  if (repoExists) {
+    cacheHitsTotal.inc({ cache: 'git-repo' });
+    logInfo('Reusing cached repository', { scope: 'adapter:github', provenance: url, ref });
   }
 
   const repoGit = simpleGit(targetDir);
@@ -98,7 +105,7 @@ export async function searchGithubMirrors(repoFullName: string): Promise<GithubR
     headers.Authorization = `Bearer ${cfg.githubToken}`;
   }
   try {
-    const response = await fetch(url, { headers });
+    const response = await fetchWithRetry(url, { headers }, { adapter: 'github' });
     if (!response.ok) {
       throw new Error(`GitHub search failed ${response.status}`);
     }

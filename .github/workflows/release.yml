@@ -50,6 +50,9 @@ jobs:
       - name: Run tests
         run: pnpm exec vitest run --reporter=basic
 
+      - name: Generate SBOM
+        run: pnpm security:sbom
+
       - name: Determine tag
         id: meta
         run: |
@@ -66,6 +69,7 @@ jobs:
           zip -r artifacts/poe-mcp-src.zip \
             bin dist schema docs fixtures scripts packaging manifest.json manifest.template.json package.json pnpm-lock.yaml README.md CHANGELOG.md LICENSES.txt \
             -x 'node_modules/*'
+          zip -r artifacts/poe-mcp-offline-data.zip data/latest
 
       - name: Ensure release exists
         env:
@@ -83,4 +87,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ steps.meta.outputs.tag }}
         run: |
-          gh release upload "$TAG_NAME" artifacts/poe-mcp-clients.zip artifacts/poe-mcp-src.zip manifest.json dist/coverage/coverage.json dist/coverage/coverage.txt --clobber
+          gh release upload "$TAG_NAME" \
+            artifacts/poe-mcp-clients.zip \
+            artifacts/poe-mcp-src.zip \
+            artifacts/poe-mcp-offline-data.zip \
+            manifest.json \
+            dist/coverage/coverage.json \
+            dist/coverage/coverage.txt \
+            dist/security/sbom.json \
+            --clobber

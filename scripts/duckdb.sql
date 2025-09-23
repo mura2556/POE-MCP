@@ -1,6 +1,16 @@
+PRAGMA enable_progress_bar;
+
+CREATE TEMP TABLE mods AS
+SELECT * FROM read_json_auto('data/latest/Mod.jsonl');
+
+CREATE INDEX idx_mods_domain ON mods(domain);
+
+CREATE TEMP VIEW craft_actions AS
+SELECT * FROM read_json_auto('data/latest/CraftAction.jsonl');
+
 -- Inspect mod counts per tag
 SELECT tag, COUNT(*) AS mod_count
-FROM read_json_auto('data/latest/Mod.jsonl')
+FROM mods
 CROSS JOIN UNNEST(tags) AS t(tag)
 GROUP BY tag
 ORDER BY mod_count DESC
@@ -14,6 +24,6 @@ ORDER BY bases DESC;
 
 -- Typical cost ranges for craft actions
 SELECT type, AVG(typicalCostChaos) AS avg_cost_chaos, COUNT(*) AS crafts
-FROM read_json_auto('data/latest/CraftAction.jsonl')
+FROM craft_actions
 GROUP BY type
 ORDER BY avg_cost_chaos DESC;

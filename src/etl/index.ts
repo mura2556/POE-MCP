@@ -10,18 +10,27 @@ import { loadBuildCorpus } from './build_corpus.js';
 import { normalizeData, normalizedKinds } from './normalize.js';
 import { writeDataset } from '../data/serialize.js';
 import { hashFile, loadManifest, mergeManifest, saveManifest } from '../utils/manifest.js';
+import { etlRunSeconds } from '../utils/metrics.js';
+import { createRequestContext } from '../utils/logger.js';
 
 export interface EtlOptions {
   incremental?: boolean;
+  league?: string;
 }
 
 export async function runEtl(options: EtlOptions = {}): Promise<void> {
+  const ctx = createRequestContext('etl', {
+    mode: options.incremental ? 'incremental' : 'full',
+    league: options.league,
+  });
   const cfg = loadConfig();
+  const endTimer = etlRunSeconds.startTimer({ mode: options.incremental ? 'incremental' : 'full' });
+  ctx.info('Starting ETL run');
   const [repoe, pypoe, pob, economy, builds] = await Promise.all([
     loadRePoE(),
     ensurePyPoe(),
     loadPathOfBuilding(),
-    loadEconomySnapshots(),
+    loadEconomySnapshots({ overrideLeague: options.league }),
     loadBuildCorpus(),
   ]);
 
@@ -53,6 +62,7 @@ export async function runEtl(options: EtlOptions = {}): Promise<void> {
         generated_at: DateTime.utc().toISO(),
         poe_version: 'PoE1',
         leagues: economy.data.leagues,
+        selectedLeague: economy.data.selectedLeague,
       },
       null,
       2,
@@ -72,4 +82,6 @@ export async function runEtl(options: EtlOptions = {}): Promise<void> {
     await fs.promises.rm(latestLink, { force: true });
     await fs.promises.symlink(path.basename(outputDir), latestLink);
   }
+  endTimer();
+  ctx.info('Completed ETL run', { outputDir });
 }

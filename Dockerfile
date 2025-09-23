@@ -1,5 +1,13 @@
 FROM node:18-slim
 
+ARG VERSION=0.0.0
+ARG VCS_REF=local
+ARG SOURCE_URL=https://github.com/anthropics/poe-mcp
+
+LABEL org.opencontainers.image.source="${SOURCE_URL}" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${VCS_REF}"
+
 WORKDIR /app
 ENV NODE_ENV=production
 

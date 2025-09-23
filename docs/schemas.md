@@ -1,6 +1,12 @@
 # Schema reference
 
-All core entities are defined via [Zod](https://github.com/colinhacks/zod) in `src/schema/zod.ts`. `pnpm build:schemas` emits JSON Schema documents consumed by MCP clients and validation tooling.
+All core entities are defined via [Zod](https://github.com/colinhacks/zod) in `src/schema/zod.ts`. `pnpm build:schemas` emits JSON Schema documents under [`schema/json`](../schema/json) consumed by MCP clients and validation tooling.
+
+Quick inspection tips:
+
+- `schema/json/BaseItem.schema.json` – `provenance.sources[]` includes `url`, `ref`, `poe_version`, and `poe_version` is always `PoE1`.
+- `schema/json/Mod.schema.json` – `conditions` describe spawn domains, and `history[]` records `league_from`/`league_to` ranges.
+- `schema/json/CraftAction.schema.json` – `strategies.cheapest/fastest/safest` enumerate `steps[]` (each with `preconditions` and optional `fix_unwanted`).
 
 | Entity | Description |
 | --- | --- |

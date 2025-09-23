@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-09-23T00:51:58.856Z",
+  "generatedAt": "2025-09-23T12:48:46.948Z",
   "poe_version": "PoE1",
   "sources": [
     {
@@ -41,7 +41,11 @@
       "poe_version": "PoE1",
       "warnings": [
         "Network access unavailable; generated deterministic fallback economy snapshot."
-      ]
+      ],
+      "metadata": {
+        "selectedLeague": "Standard"
+      },
+      "lastModified": "2025-09-23T12:48:45.783Z"
     },
     {
       "name": "PoB Build Corpus (fallback)",
@@ -258,42 +262,42 @@
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/NinjaPricePoint.jsonl",
-      "hash": "94dab7d6aee6210981bb247e323dd0a25238922451b2bf180e813f20555a2eeb",
+      "hash": "30091aed32e6b0d770bf5a0c421a3ae97c614587c3c75a920a5555915de563c2",
       "rows": 20
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/NinjaPricePoint.parquet",
-      "hash": "c5d15905a9290310a2c1e6c1fa629cf2af21232ee613b7761bc306494fd6440c",
+      "hash": "6e14244c5b04a32744921ab9c13c32b5da6799bd3a7680efa87aed1e7e1142fb",
       "rows": 20
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/CurrencyDigest.jsonl",
-      "hash": "4c428b03d5d680d7d404ea4c0723283de84c2a6cc771206253ecc54bd210484a",
+      "hash": "a2ff01c218e9397a0eb84c52fb744d2c2b19bb712a74de36ef784b2dfe6c6277",
       "rows": 1
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/CurrencyDigest.parquet",
-      "hash": "706d235d4169efd263d13c02a8cc9b3db91dda7b0a293e2729d13ff54a2b8246",
+      "hash": "80ce8efa8418d597f2961c5039d4a4a116d04431fbc5c4914fe4fece51085599",
       "rows": 1
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/PoBBuild.jsonl",
-      "hash": "ea8ec0232909605e72f28022d7c824a53cfd5d01d782e4a56ee773e1ee1412b1",
+      "hash": "535b5865e202dd46955f5ade2836b36a1c6c2dfa1d35a4a8eef87e598c921cba",
       "rows": 25
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/PoBBuild.parquet",
-      "hash": "d671c4372b22bb6bc91e85c245a0b63d26a9b761bb05aa5b389b29a2acfb20eb",
+      "hash": "45c5e6c09434fbffd7c420ee11ff43dc04c54c552f527df938c2efc7a5f36631",
       "rows": 25
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/BuildSnapshot.jsonl",
-      "hash": "1ecc8fef18e13634eee5f300f70363719b94b2ee6e3db65ba0fa6844cedb7a2d",
+      "hash": "9788e21e74dd8faf7d67d52a0cb95450a8d1942ced583896070d6c2f9470131e",
       "rows": 25
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/BuildSnapshot.parquet",
-      "hash": "a2167168ac46f17c1c777012cd87a0e18ef2223f5f84ad3fdb46073d0ed78824",
+      "hash": "0801ee3571fdde35ff81ec319eb8686a928d0b6aff4dd44b0a98da03f6fb60d2",
       "rows": 25
     },
     {
@@ -338,7 +342,7 @@
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/metadata.json",
-      "hash": "d32dda52d16375ddbd1247b89e48f24b6e666037aa15ac012bfec9a3f399eda3",
+      "hash": "25fca4b9d5a56c2dc08d9009cba8298d9ada1afec604fc072746e506786d3543",
       "rows": 1
     }
   ]

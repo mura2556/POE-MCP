@@ -6,7 +6,15 @@ import { parseItemText } from '../adapters/itemParser.js';
 import { decodePobCode, encodePobXml } from '../adapters/pob.js';
 import { verifyCoverage } from '../validation/coverage.js';
 
-async function readJsonl(kind: string): Promise<any[]> {
+function resolveKind(kind: string): SchemaKinds {
+  const key = Object.keys(schemaMap).find((entry) => entry.toLowerCase() === kind.toLowerCase());
+  if (!key) {
+    throw new Error(`Unknown schema kind ${kind}`);
+  }
+  return key as SchemaKinds;
+}
+
+async function readJsonl(kind: SchemaKinds): Promise<any[]> {
   const cfg = loadConfig();
   const filePath = path.join(cfg.dataRoot, `${kind}.jsonl`);
   try {
@@ -21,7 +29,8 @@ async function readJsonl(kind: string): Promise<any[]> {
 }
 
 export async function searchData(kind: SchemaKinds, q: string): Promise<any[]> {
-  const rows = await readJsonl(kind);
+  const resolvedKind = resolveKind(kind);
+  const rows = await readJsonl(resolvedKind);
   const query = q.toLowerCase();
   return rows
     .filter((row) => JSON.stringify(row).toLowerCase().includes(query))
@@ -30,7 +39,8 @@ export async function searchData(kind: SchemaKinds, q: string): Promise<any[]> {
 }
 
 export async function getSchema(kind: SchemaKinds): Promise<unknown> {
-  const schemaPath = path.resolve('schema/json', `${kind}.schema.json`);
+  const resolvedKind = resolveKind(kind);
+  const schemaPath = path.resolve('schema/json', `${resolvedKind}.schema.json`);
   return JSON.parse(await fs.readFile(schemaPath, 'utf-8'));
 }
 
@@ -87,7 +97,8 @@ export async function economySnapshot(kind: string, key: string): Promise<unknow
 }
 
 export async function historyDiff(kind: SchemaKinds, id: string): Promise<unknown> {
-  const rows = await readJsonl(kind);
+  const resolvedKind = resolveKind(kind);
+  const rows = await readJsonl(resolvedKind);
   const target = rows.find((row) => row.id === id);
   if (!target) {
     throw new Error(`Unknown ${kind} ${id}`);

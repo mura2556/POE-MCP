@@ -30,6 +30,13 @@ jobs:
           node-version: 18
           cache: "pnpm"
 
+      - name: Determine version metadata
+        id: meta
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >>"$GITHUB_OUTPUT"
+          echo "sha=${GITHUB_SHA}" >>"$GITHUB_OUTPUT"
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -46,9 +53,29 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push image
+      - name: Build container image
+        env:
+          IMAGE: ghcr.io/${{ github.repository_owner }}/poe-mcp
         run: |
-          IMAGE="ghcr.io/${{ github.repository_owner }}/poe-mcp"
-          docker build -t "$IMAGE:latest" -t "$IMAGE:${{ github.ref_name }}" .
+          docker build \
+            --build-arg VERSION=${{ steps.meta.outputs.version }} \
+            --build-arg VCS_REF=${{ steps.meta.outputs.sha }} \
+            --build-arg SOURCE_URL=https://github.com/${{ github.repository }} \
+            -t "$IMAGE:latest" \
+            -t "$IMAGE:${{ github.ref_name }}" \
+            .
+
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@v0.24.0
+        with:
+          image-ref: ghcr.io/${{ github.repository_owner }}/poe-mcp:latest
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
+
+      - name: Push container image
+        env:
+          IMAGE: ghcr.io/${{ github.repository_owner }}/poe-mcp
+        run: |
           docker push "$IMAGE:latest"
           docker push "$IMAGE:${{ github.ref_name }}"

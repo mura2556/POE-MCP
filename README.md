@@ -30,6 +30,8 @@ The commands above compile the TypeScript source, regenerate JSON Schema artifac
 > **Note**
 > `manifest.json` ships as a blank template; running the ETL pipeline overwrites it based on the rules described in `manifest.template.json`.
 
+For an end-to-end walkthrough (installation, client wiring, and first tool calls) see [`docs/quickstart.md`](docs/quickstart.md).
+
 ### Install via Docker | npm | Homebrew | Scoop
 
 Pick the distribution channel that best fits your environment (all variants preserve the PoE1-only validation gates):
@@ -50,10 +52,12 @@ Reference templates for the Homebrew formula and Scoop manifest live under [`pac
 Once installed (either from source or via npm/Homebrew/Scoop), use the bundled CLI:
 
 ```bash
-poe-mcp etl:all            # full rebuild into data/<DATE>/
-poe-mcp etl:incremental    # targeted refresh into data/latest
-poe-mcp serve              # defaults to stdio; pass --transport http for SSE
-poe-mcp verify:coverage    # run PoE1 + coverage checks and emit coverage.{json,txt}
+poe-mcp etl:all                               # full rebuild into data/<DATE>/
+poe-mcp etl:incremental --league Affliction   # targeted refresh with explicit league override
+poe-mcp serve --transport stdio               # stdio transport for Claude, Cursor, etc.
+poe-mcp serve --transport http --metrics --health --port 8765  # HTTP + /rpc + /sse endpoints
+poe-mcp offline --from ./release-snapshot --transport http     # serve an unpacked release bundle
+poe-mcp verify:coverage                       # run PoE1 + coverage checks and emit coverage.{json,txt}
 ```
 
 ### Quick start by client
@@ -145,7 +149,64 @@ pnpm mcp:start                 # stdio transport
 node dist/index.cjs serve --transport http --port 8765  # HTTP transport
 ```
 
+The HTTP transport exposes JSON-RPC 2.0 at `POST /rpc`, a Server-Sent Events stream at `GET /sse`, health reporting at `GET /health`, and Prometheus metrics at `GET /metrics` (enable via `--metrics`).
+
+Minimal clients:
+
+```bash
+# Issue a JSON-RPC call via curl
+curl -s http://127.0.0.1:8765/rpc \
+  -H 'Content-Type: application/json' \
+  -d '{"id":1,"method":"search_data","params":{"kind":"BaseItem","q":"Two-Toned Boots"}}'
+
+# Consume the SSE stream
+curl http://127.0.0.1:8765/sse
+```
+
+```ts
+// Node.js example (run with: node --loader tsx)
+import fetch from 'node-fetch';
+import { readFile } from 'node:fs/promises';
+
+const main = async () => {
+  const payload = {
+    id: 42,
+    method: 'item_parse',
+    params: { text: await readFile('fixtures/items/item_1.txt', 'utf-8') },
+  };
+
+  const response = await fetch('http://127.0.0.1:8765/rpc', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+console.log(await response.json());
+};
+
+main();
+```
+
 See [`docs/clients.md`](docs/clients.md) for per-application instructions and copy commands. All configs reference the project binary through a `{{ABS_PATH}}` placeholder; running `pnpm build:clients` rewrites the files with absolute paths.
+
+### Crafting lookup examples
+
+The `crafting_lookup` tool synthesizes strategies for a target item base. Each plan enumerates prerequisites (`inputs`), expected outcomes, and “fix unwanted” fallbacks.
+
+1. **Spell-suppression boots (`Two-Toned Boots`)**
+   - **Cheapest** – spam `Essence of Zeal` until suppression tiers align, then bench-craft movement speed. Fix unwanted: use the crafting bench `remove/add defence` to reroll a bricked suffix block.
+   - **Fastest** – apply Eldritch Ichors/Embers for implicit suppression, then slam `Veiled Chaos Orb` and unveil movement speed. Fix unwanted: harvest `reforge speed, keeping suffixes`.
+   - **Safest** – fractured suppression base → harvest `augment speed` once, finish with bench-crafted life. Fix unwanted: beastcraft `Wild Bristle Matron` to remove a random suffix before reapplying.
+
+2. **Life + resist chest (`Astral Plate`)**
+   - **Cheapest** – spam `Essence of Greed`, bench-craft triple resist. Fix unwanted: harvest `reforge life, more likely` while locking suffixes.
+   - **Fastest** – apply `Guiding Resonator + Dense Fossil` spam, finish with `remove/add defence`. Fix unwanted: use meta-craft `Suffixes cannot be changed` → scour prefixes.
+   - **Safest** – bench “prefixes/suffixes cannot be changed”, then harvest `augment life` followed by `augment resistance`. Fix unwanted: harvest `remove non-resistance add resistance`.
+
+3. **Chaos DoT wand (`Convoking Wand`)**
+   - **Cheapest** – alt spam until “+1 to Level of all Chaos Spell Skill Gems”, regal, multimod: `Can have up to 3 Crafted Modifiers`, `+2 to Chaos Skill Gem Levels`, `Damage over Time Multiplier`. Fix unwanted: bench `Remove crafted modifiers` and restart.
+   - **Fastest** – essence spam `Essence of Delirium`, bench-craft `+1 to level of all spell skill gems`. Fix unwanted: harvest `reforge caster, more likely` while locking suffixes.
+   - **Safest** – fractured +1 base, apply `Aetheric + Corroded Fossils` for caster suffix bias, finish with veiled chaos for trigger. Fix unwanted: use `Remove/Add caster` to repair a misaligned prefix.
 
 ## CLI scripts
 
@@ -159,6 +220,19 @@ See [`docs/clients.md`](docs/clients.md) for per-application instructions and co
 
 Zod schemas live in `src/schema/zod.ts`; the script `pnpm build:schemas` emits corresponding JSON Schema documents in `schema/json/*.schema.json`. Each table is persisted both as `*.jsonl` and `*.parquet` (with a single-row JSON payload column for compatibility with downstream analytics tooling).
 
+DuckDB helpers in [`scripts/duckdb.sql`](scripts/duckdb.sql) materialize temporary tables and indices for interactive analysis:
+
+```bash
+python - <<'PY'
+import duckdb
+con = duckdb.connect()
+script = open('scripts/duckdb.sql').read()
+for statement in [stmt.strip() for stmt in script.split(';') if stmt.strip()]:
+    con.execute(statement)
+print(con.execute('SELECT COUNT(*) FROM mods').fetchone())
+PY
+```
+
 ## Binaries & runners
 
 `pnpm build:bin` generates:
@@ -167,6 +241,12 @@ Zod schemas live in `src/schema/zod.ts`; the script `pnpm build:schemas` emits c
 - `bin/poe-mcp.cmd` – Windows launcher invoking Node.js with the same entrypoint.
 
 The script is designed to integrate with packaging tools such as `pkg` or `nexe` if a native binary is required; drop the compiled artifact into `bin/` and the generated configs will adopt it automatically.
+
+## Security & SBOM
+
+- Software Bill of Materials: `pnpm security:sbom` writes `dist/security/sbom.json`. Releases attach the same CycloneDX document—verify with `jq '.metadata.component.name' dist/security/sbom.json`.
+- Container scanning: `trivy image ghcr.io/<OWNER>/poe-mcp:latest --severity HIGH,CRITICAL` (mirrors the CI gate).
+- Static analysis: GitHub Actions runs CodeQL on every push/PR and Dependabot keeps npm + GitHub Actions pinned.
 
 ## Testing
 

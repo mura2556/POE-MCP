@@ -13,6 +13,7 @@ export interface ManifestSourceEntry {
   hash?: string;
   rows?: number;
   warnings?: string[];
+  metadata?: Record<string, unknown>;
 }
 
 export interface ManifestFileEntry {
