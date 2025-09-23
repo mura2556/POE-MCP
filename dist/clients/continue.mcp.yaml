@@ -1,6 +1,6 @@
 mcpServers:
   - name: poe-mcp-stdio
-    command: {{ABS_PATH}}/bin/poe-mcp
+    command: "{{ABS_PATH}}/bin/poe-mcp"
     args: ["serve", "--transport", "stdio"]
   - name: poe-mcp-http
     url: http://127.0.0.1:8765/rpc

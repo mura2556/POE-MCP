@@ -1,0 +1,22 @@
+version: "3"
+services:
+  poe-mcp:
+    image: ghcr.io/modelcontextprotocol/mcpo:latest
+    command: ["--binary", "{{ABS_PATH}}/bin/poe-mcp", "serve", "--transport", "stdio"]
+    volumes:
+      - "{{ABS_PATH}}/bin/poe-mcp:/app/bin/poe-mcp:ro"
+    healthcheck:
+      test: ["CMD", "mcpo", "--ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:latest
+    environment:
+      MCP_ENABLED: "true"
+      MCP_SERVER_URL: "http://poe-mcp:3000/openapi.json"
+    depends_on:
+      poe-mcp:
+        condition: service_healthy
+    ports:
+      - "3000:8080"

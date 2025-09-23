@@ -2,6 +2,7 @@ import { fetchLeagues } from '../adapters/poeDev.js';
 import { fetchNinjaOverview, type NinjaSnapshot } from '../adapters/poeNinja.js';
 import { assertPoe1 } from '../validate/noPoe2.js';
 import type { ManifestSourceEntry } from '../utils/manifest.js';
+import { loadConfig } from '../config/index.js';
 
 export interface EconomyDataset {
   snapshots: NinjaSnapshot[];
@@ -9,24 +10,30 @@ export interface EconomyDataset {
 }
 
 export async function loadEconomySnapshots(): Promise<{ data: EconomyDataset; manifest: ManifestSourceEntry }> {
+  const cfg = loadConfig();
   try {
     const leagues = await fetchLeagues();
-    const currentLeagues = leagues
+    const defaultLeagues = leagues
       .filter((league) => {
         assertPoe1(league.id, `league:${league.id}`);
         return !league.id.toLowerCase().includes('ruthless');
       })
+      .map((league) => league.id)
       .slice(0, 3);
+    const configuredLeagues = cfg.poeNinjaLeagues;
+    const leagueIds = (configuredLeagues.length > 0 ? configuredLeagues : defaultLeagues).filter(Boolean);
+    const uniqueLeagueIds = Array.from(new Set(leagueIds.length > 0 ? leagueIds : ['Standard']));
     const snapshots: NinjaSnapshot[] = [];
-    for (const league of currentLeagues) {
-      const currency = await fetchNinjaOverview(league.id, 'currency');
-      const items = await fetchNinjaOverview(league.id, 'item');
+    for (const leagueId of uniqueLeagueIds) {
+      assertPoe1(leagueId, `league:${leagueId}`);
+      const currency = await fetchNinjaOverview(leagueId, 'currency');
+      const items = await fetchNinjaOverview(leagueId, 'item');
       snapshots.push(currency, items);
     }
     return {
       data: {
         snapshots,
-        leagues: currentLeagues.map((league) => league.id),
+        leagues: uniqueLeagueIds,
       },
       manifest: {
         name: 'poe.ninja',
@@ -38,6 +45,7 @@ export async function loadEconomySnapshots(): Promise<{ data: EconomyDataset; ma
       },
     };
   } catch (error) {
+    const fallbackLeague = cfg.poeNinjaLeagues[0] ?? 'Standard';
     const fallbackLines = Array.from({ length: 20 }).map((_, index) => ({
       id: `fallback-currency-${index + 1}`,
       name: `Fallback Currency ${index + 1}`,
@@ -50,13 +58,13 @@ export async function loadEconomySnapshots(): Promise<{ data: EconomyDataset; ma
       data: {
         snapshots: [
           {
-            league: 'Standard',
+            league: fallbackLeague,
             generatedAt: new Date().toISOString(),
             kind: 'currency',
             lines: fallbackLines,
           },
         ],
-        leagues: ['Standard'],
+        leagues: [fallbackLeague],
       },
       manifest: {
         name: 'poe.ninja (fallback)',

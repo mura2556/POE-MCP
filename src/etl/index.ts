@@ -52,6 +52,7 @@ export async function runEtl(options: EtlOptions = {}): Promise<void> {
       {
         generated_at: DateTime.utc().toISO(),
         poe_version: 'PoE1',
+        leagues: economy.data.leagues,
       },
       null,
       2,

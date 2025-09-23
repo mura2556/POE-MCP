@@ -18,6 +18,7 @@ All validation and CI jobs fail fast if any PoE2 identifier, repository, or mech
 pnpm install
 pnpm build
 pnpm build:schemas
+export POE_MCP_CLIENTS_ABS=$(pwd)
 pnpm build:clients
 pnpm build:bin
 pnpm etl:all
@@ -28,6 +29,16 @@ The commands above compile the TypeScript source, regenerate JSON Schema artifac
 
 > **Note**
 > `manifest.json` ships as a blank template; running the ETL pipeline overwrites it based on the rules described in `manifest.template.json`.
+
+### Quick start by client
+
+| Client | Copy command (macOS) | Config path | First call |
+| --- | --- | --- | --- |
+| Claude Desktop | `cp dist/clients/claude_desktop_config.json "~/Library/Application Support/Claude/claude_desktop_config.json"` | `~/Library/Application Support/Claude/claude_desktop_config.json` | Ask Claude to run `verify_coverage` from the MCP panel. |
+| Cursor | `cp dist/clients/cursor.mcp.json ~/.cursor/mcp.json` | `~/.cursor/mcp.json` | Command palette → `poe-mcp: search_data BaseItem Amulet`. |
+| LM Studio | `cp dist/clients/lmstudio.mcp.json "~/Library/Application Support/LM Studio/mcp.json"` | `~/Library/Application Support/LM Studio/mcp.json` | Tools → MCP → `search_data` on `Gem` for “Support”. |
+| AnythingLLM | `cp dist/clients/anythingllm_mcp_servers.json "~/Library/Application Support/anythingllm-desktop/storage/plugins/anythingllm_mcp_servers.json"` | `~/Library/Application Support/anythingllm-desktop/storage/plugins/anythingllm_mcp_servers.json` | Agents → MCP connectors → click **Test** on `poe-mcp`. |
+| Open WebUI (mcpo) | `cp dist/clients/openwebui+mcpo.compose.yaml ./docker-compose.poe-mcp.yaml` | `./docker-compose.poe-mcp.yaml` | In-chat command `/tool verify_coverage` once the compose stack is running. |
 
 ## Repository layout
 
@@ -69,6 +80,10 @@ The command materializes normalized tables (JSONL + Parquet) in `data/<DATE>/` a
 pnpm etl:incremental
 ```
 
+> Need a specific economy league? Set `export POE_MCP_NINJA_LEAGUES="Affliction"` (comma-separated for multiple leagues) before running `pnpm etl:all`. The poe.ninja adapter only calls the PoE1 `currencyoverview` and `itemoverview` endpoints for the requested leagues.
+
+> The PoE developer adapter is limited to read-only metadata (leagues and trade-static categories) and abides by the official API terms—avoid scripted trade searches or bulk stash polling.
+
 ### Validation
 
 `pnpm data:validate` enforces:
@@ -81,6 +96,8 @@ pnpm etl:incremental
 - ≥20 poe.ninja price points loaded for the active leagues.
 
 The validation report is also exposed as an MCP tool (`verify_coverage`).
+
+Running `pnpm data:validate` produces both `dist/coverage/coverage.json` and `dist/coverage/coverage.txt` for CI ingestion and human-readable summaries.
 
 ## MCP server
 

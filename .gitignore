@@ -4,6 +4,8 @@ pnpm-lock.yaml
 dist/*
 !dist/clients/
 !dist/clients/**
+!dist/coverage/
+!dist/coverage/**
 coverage
 .etl-cache
 v8-compile-cache-0

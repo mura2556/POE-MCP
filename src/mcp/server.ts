@@ -55,7 +55,7 @@ export async function startStdIOServer(): Promise<void> {
   rl.on('close', () => process.exit(0));
 }
 
-export async function startHttpServer(port: number): Promise<void> {
+export async function startHttpServer(port: number): Promise<http.Server> {
   const server = http.createServer(async (req, res) => {
     if (req.method !== 'POST' || req.url !== '/rpc') {
       res.writeHead(404);
@@ -81,4 +81,17 @@ export async function startHttpServer(port: number): Promise<void> {
   });
   // eslint-disable-next-line no-console
   console.log(`HTTP MCP server listening on http://127.0.0.1:${port}/rpc`);
+  return server;
+}
+
+export async function stopHttpServer(server: http.Server): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    server.close((err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve();
+    });
+  });
 }

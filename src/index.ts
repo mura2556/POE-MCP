@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
-import { startStdIOServer, startHttpServer } from './mcp/server.js';
+import { startStdIOServer, startHttpServer, stopHttpServer } from './mcp/server.js';
 import { verifyCoverage } from './validation/coverage.js';
 import { runEtl } from './etl/index.js';
 
@@ -19,7 +19,13 @@ program
     if (options.transport === 'stdio') {
       await startStdIOServer();
     } else {
-      await startHttpServer(options.port);
+      const server = await startHttpServer(options.port);
+      const shutdown = async () => {
+        await stopHttpServer(server);
+        process.exit(0);
+      };
+      process.on('SIGINT', shutdown);
+      process.on('SIGTERM', shutdown);
     }
   });
 

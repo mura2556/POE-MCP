@@ -1,0 +1,51 @@
+name: Release v0.1.0
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build core bundle
+        run: pnpm build
+      - name: Build schemas
+        run: pnpm build:schemas
+      - name: Build client configs
+        run: POE_MCP_CLIENTS_ABS=$(pwd) pnpm build:clients
+      - name: Build launcher scripts
+        run: pnpm build:bin
+      - name: Run ETL (full)
+        run: pnpm etl:all
+      - name: Validate dataset
+        run: pnpm data:validate
+      - name: Run tests
+        run: bash -c "set -o pipefail && pnpm exec vitest run --reporter=basic | tee vitest-report.txt"
+      - name: Package release artifacts
+        run: |
+          tar -czf data-latest.tar.gz -C data latest
+          tar -czf clients.tar.gz -C dist clients
+      - name: Ensure GitHub release exists
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view v0.1.0 >/dev/null 2>&1; then
+            echo "Release v0.1.0 already exists.";
+          else
+            gh release create v0.1.0 --generate-notes;
+          fi
+      - name: Upload release assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload v0.1.0 data-latest.tar.gz clients.tar.gz manifest.json dist/coverage/coverage.json dist/coverage/coverage.txt --clobber

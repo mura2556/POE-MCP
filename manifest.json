@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-09-23T00:05:08.912Z",
+  "generatedAt": "2025-09-23T00:51:58.856Z",
   "poe_version": "PoE1",
   "sources": [
     {
@@ -258,42 +258,42 @@
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/NinjaPricePoint.jsonl",
-      "hash": "82bf7bc456bc0b943ceebdc134b2e5d37646f2483212b58a6517a83c08396100",
+      "hash": "94dab7d6aee6210981bb247e323dd0a25238922451b2bf180e813f20555a2eeb",
       "rows": 20
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/NinjaPricePoint.parquet",
-      "hash": "2d75ebd413a851f440fb2d0700077c05d599ac1e41517063b510ed41d9ba9eb6",
+      "hash": "c5d15905a9290310a2c1e6c1fa629cf2af21232ee613b7761bc306494fd6440c",
       "rows": 20
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/CurrencyDigest.jsonl",
-      "hash": "ba2990e67805d3f0e1ad7e70df8e25a4b75992d5ad913ea0b376ffab241ed384",
+      "hash": "4c428b03d5d680d7d404ea4c0723283de84c2a6cc771206253ecc54bd210484a",
       "rows": 1
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/CurrencyDigest.parquet",
-      "hash": "a270a62ff0c25b6fb00de5e1fc0267a4ae3246cbf41ca3a38f1f8eaf12d09525",
+      "hash": "706d235d4169efd263d13c02a8cc9b3db91dda7b0a293e2729d13ff54a2b8246",
       "rows": 1
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/PoBBuild.jsonl",
-      "hash": "1937a9a6879de24dbcd070dc2164eb4c8fd16307018fd35a85d24ea4df4e833d",
+      "hash": "ea8ec0232909605e72f28022d7c824a53cfd5d01d782e4a56ee773e1ee1412b1",
       "rows": 25
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/PoBBuild.parquet",
-      "hash": "fb9c9012bf786e382ac1d895b62991e4a8f40d58dc3da204e0431abdde5ec13a",
+      "hash": "d671c4372b22bb6bc91e85c245a0b63d26a9b761bb05aa5b389b29a2acfb20eb",
       "rows": 25
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/BuildSnapshot.jsonl",
-      "hash": "f4bbae63fbd26bd07e5a55ffb6f62d67d1d1136a52a940fd186e8cbe8028c398",
+      "hash": "1ecc8fef18e13634eee5f300f70363719b94b2ee6e3db65ba0fa6844cedb7a2d",
       "rows": 25
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/BuildSnapshot.parquet",
-      "hash": "04875695f1a9c53b2ec14f774e6eea7e0287f617c7826ab48aa97694b7df5fdf",
+      "hash": "a2167168ac46f17c1c777012cd87a0e18ef2223f5f84ad3fdb46073d0ed78824",
       "rows": 25
     },
     {
@@ -338,7 +338,7 @@
     },
     {
       "path": "/workspace/POE-MCP/data/2025-09-22/metadata.json",
-      "hash": "31f658aa8f04104901f004a0ec5d21878007b56bb0c732758a99f4c90ab9d764",
+      "hash": "d32dda52d16375ddbd1247b89e48f24b6e666037aa15ac012bfec9a3f399eda3",
       "rows": 1
     }
   ]
