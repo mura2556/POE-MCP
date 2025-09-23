@@ -157,9 +157,12 @@ export class FileSystemSnapshotStore implements SnapshotStore {
     const pointer = await this.readPointer();
     if (pointer) {
       try {
-        return this.loadSnapshot(pointer.id);
+        return await this.loadSnapshot(pointer.id);
       } catch (error) {
-        this.logger?.warn({ pointer, error }, "Failed to load pointed snapshot, falling back to scan");
+        this.logger?.warn(
+          { pointer, error },
+          "Failed to load pointed snapshot, falling back to scan"
+        );
       }
     }
 

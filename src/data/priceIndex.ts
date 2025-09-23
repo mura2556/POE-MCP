@@ -82,13 +82,18 @@ export class PriceIndex {
   }
 
   toStructuredResult(item: ItemPrice) {
+    const divineValue =
+      Number.isFinite(item.divineValue) && item.divineValue > 0
+        ? item.divineValue
+        : chaosToDivine(item.chaosValue, this.getSuggestedDivineRate());
+
     return {
       itemId: item.itemId,
       name: item.name,
       normalizedName: item.normalizedName,
       category: item.category,
       chaosValue: item.chaosValue,
-      divineValue: chaosToDivine(item.chaosValue),
+      divineValue,
       confidence: item.confidence,
       sampleSize: item.sampleSize,
       listings: item.listings,
